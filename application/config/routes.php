@@ -39,7 +39,7 @@ $route['default_controller'] = 'painel';
 
 
 /////////////////////////////////// ADMIN ////////////////////////////////////////
-$route['admin'] = 'admin/login';
+$route['admin/login'] = 'admin/login';
 $route['admin/Login/log'] = 'admin/Login/log';
 $route['admin/logout'] = 'admin/Login/logout';
 $route['admin/dashboard'] = 'admin/dashboard';

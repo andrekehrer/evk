@@ -47,9 +47,10 @@ class Rdo extends CI_Controller {
         if (!isset($_SESSION['backend']['currentSessionId'])) {
             redirect('admin');
         }
-        $user_id = $_SESSION['backend']['id'];
         date_default_timezone_set('America/Sao_Paulo');
-        $today = strtotime(date("Y-m-d h:i:sa"));
+        $user_id    = $_SESSION['backend']['id'];
+        $today      = strtotime(date("Y-m-d h:i:sa"));
+        $today_dia  = date("d-m-Y");
         
         $this->db->where('funcionario_id',$user_id);
         $this->db->where('id_obra',$obra_id);
@@ -68,6 +69,7 @@ class Rdo extends CI_Controller {
             'funcionario_id' => $user_id,
             'data' => $today,
             'data_alterada' => $today,
+            'dia_criada' => $today_dia,
         );
         $this->db->insert('rdos', $data);
         $rdo_id = $this->db->insert_id();

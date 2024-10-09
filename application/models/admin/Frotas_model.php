@@ -47,6 +47,20 @@ class Frotas_model extends CI_Model
 		return $data;
 	}
 
+	public function lista_funcionarios_rdo_nome($rdo_id){
+
+		$this->db->select('funcionarios.nome');
+		$this->db->from('funcionarios_rdo');
+		$this->db->join('funcionarios', 'funcionarios.id = funcionarios_rdo.funcionario_id');
+		$this->db->where('funcionarios_rdo.rdo_id', $rdo_id);
+		
+		$data = $this->db->get()->result();
+		// print_r($this->db->last_query());
+		// $data = $this->db->get()->result();
+
+		return $data;
+	}
+
 
 	public function lista_frotas_by_rdf_id($rdo_id){
 		$data = $this->db->get_where('veiculos_rdo', array('rdo_id' => $rdo_id))->result();
@@ -54,7 +68,7 @@ class Frotas_model extends CI_Model
 	}
 
 	public function lista_frotas_com_nome_by_rdf_id($rdo_id){
-		$this->db->select('veiculos_rdo.*, frotas.nome');
+		$this->db->select('frotas.*');
 		$this->db->from('veiculos_rdo');
 		$this->db->join('frotas', 'frotas.id = veiculos_rdo.frota_id');
 		$this->db->where('veiculos_rdo.rdo_id', $rdo_id);

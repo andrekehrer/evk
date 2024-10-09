@@ -50,6 +50,11 @@ class Obras_model extends CI_Model
 		return $data;
 	}
 
+	public function lista_obras_ativas(){
+		$data = $this->db->get_where('obras', array('status' => 1))->result();
+		return $data;
+	}
+
 	public function lista_rdos($obra_id){
 		$this->db->select('rdos.id, rdos.data');
 		$this->db->select('funcionarios.nome as funcionario');

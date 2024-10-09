@@ -15,7 +15,9 @@
         -moz-user-select: none;
         user-select: none;
       }
-
+    .table>:not(caption)>*>* {
+        padding: 0.1rem .1rem !important;
+    }   
     @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
@@ -69,146 +71,69 @@
                 <div style="text-align: center;">
                     <img src="https://evk.andrekehrer.com/assets/img/logo.png"  width="60">
                     <h1 class="page-title mb-1 mt-1" style="font-size: 14px !important;">
-                        RELATÓRIO DIÁRIO DE FURO (RDF) - <b><?=date('d/m/Y',$rdfs[0]->data)?></b>
+                         RDF - RELATÓRIO DIÁRIO DE FURO 
                     </h1>
-                    <p><b>[ <?php echo $rdfs[0]->nome.' '.$rdfs[0]->sobrenome; ?> ]</b></p>
                 </div>
                 <div class="page-header" style="margin: 20px 0px 0px 0px !important;">
                     <h3 class="page-title">
-                        <?php echo $detalhes_bra[0]->obra_nome.' ('.$detalhes_bra[0]->numero_id.') [<b>'.$tipo.'</b>]'; ?>
+                        
                         
                     </h3>
                 </div>
-                <div class="row_border">
+                    <div class="row_border">
                         <div class="row">
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="data">Data</label>
-                                    <p><?= $rdfs[0]->data != '' ? date("d/m/Y h:i:sa", $rdfs[0]->data) : '--'?></p>            
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="tu">TU: </label>
-                                    <p><?=$rdfs[0]->tu?></p>         
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="data_furo_piloto">Data furo piloto:</label>
-                                    <p><?= $rdfs[0]->data_furo_piloto != '' ? date("d/m/Y", $rdfs[0]->data_furo_piloto) : '--'?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="data_puxe">Data Puxe:</label>
-                                    <p><?= $rdfs[0]->data_puxe != '' ? date("d/m/Y", $rdfs[0]->data_puxe) : '--'?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label for="cliente">Cliente</label>
-                                    <p type="text"><?=$detalhes_bra[0]->cliente_nome?></p>            
-                                </div>
+                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                <p><b>Cliente: </b><?php echo $detalhes_bra[0]->obra_nome.' ('.$detalhes_bra[0]->numero_id.') [<b>'.$tipo.'</b>]'; ?></p>
+                                <p><b>Responsável da obra: </b><?php echo $rdfs[0]->nome.' '.$rdfs[0]->sobrenome; ?></p>
+                                <p><b>Data do Relatório: </b><?= $rdfs[0]->data != '' ? date("d/m/Y h:i:sa", $rdfs[0]->data) : '--'?></p>
                             </div>
                         </div>
                     </div>
-                         
                     <div class="row_border">
                         <div class="row">
+                            <div class="col-lg-4 col-md-4 col-xs-4">
+                                <div class="form-group">
+                                    <p><b>Estado: </b>
+                                    <?= $detalhes_bra[0]->estado == ""   ?  '' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "AC" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "AL" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "AP" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "AM" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "BA" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "CE" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "DF" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "ES" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "GO" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "MA" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "MT" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "MS" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "MG" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "PA" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "PB" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "PR" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "PE" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "PI" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "RJ" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "RN" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "RS" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "RO" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "RR" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "SC" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "SP" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "SE" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "TO" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                       <?= $detalhes_bra[0]->estado == "EX" ?  ''.$detalhes_bra[0]->estado.'' : '' ?>
+                                    </p>
+                                    <p><b>Cidade: </b><?=$rdfs[0]->cidade == '' ? $detalhes_bra[0]->cidade: $rdfs[0]->cidade?></p>
+                                </div>
+                            </div>
                             <div class="col-lg-8 col-md-8 col-xs-8">
                                 <div class="form-group">
-                                    <label for="endereco">Endereco</label>
-                                    <p><?=$rdfs[0]->endereco == '' ? $detalhes_bra[0]->endereco: $rdfs[0]->endereco?></p>
+                                    <p><b>Bairro: </b><?=$rdfs[0]->bairro == '' ? $detalhes_bra[0]->bairro: $rdfs[0]->bairro?></p>
+                                    <p><b>Endereco: </b><?=$rdfs[0]->endereco == '' ? $detalhes_bra[0]->endereco: $rdfs[0]->endereco?>, <?=$rdfs[0]->numero == '' ? $detalhes_bra[0]->numero: $rdfs[0]->numero?></p>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="numero">Número</label>
-                                    <p><?=$rdfs[0]->numero == '' ? $detalhes_bra[0]->numero: $rdfs[0]->numero?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="bairro">Bairro</label>
-                                    <p><?=$rdfs[0]->bairro == '' ? $detalhes_bra[0]->bairro: $rdfs[0]->bairro?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="cidade">Cidade</label>
-                                    <p><?=$rdfs[0]->cidade == '' ? $detalhes_bra[0]->cidade: $rdfs[0]->cidade?></p>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="estado">Estado</label>
-                                       <?= $detalhes_bra[0]->estado == ""   ?  '<p></p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "AC" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "AL" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "AP" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "AM" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "BA" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "CE" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "DF" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "ES" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "GO" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "MA" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "MT" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "MS" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "MG" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "PA" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "PB" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "PR" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "PE" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "PI" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "RJ" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "RN" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "RS" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "RO" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "RR" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "SC" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "SP" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "SE" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "TO" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                       <?= $detalhes_bra[0]->estado == "EX" ?  '<p>'.$detalhes_bra[0]->estado.'</p>' : '' ?>
-                                    </select> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row_border">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="furo_n">Furo Nº:</label>
-                                    <p><?=$rdfs[0]->furo_numero?></p>      
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="aparelho_rastreamento">Estaca Inicial PV</label><br>
-                                    <p style="width: 45%;float: left;"><?=$rdfs[0]->estaca_inicial_a?></po>
-                                    <p style="width: 45%;float: left;margin-left: 10px;"> <?=$rdfs[0]->estaca_inicial_b?></p>      
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="aparelho_rastreamento">Estaca Final PV</label><br>
-                                    <p style="width: 45%;float: left;"><?=$rdfs[0]->estaca_final_a?></p>
-                                    <p style="width: 45%;float: left;margin-left: 10px;"><?=$rdfs[0]->estaca_final_b?></p>      
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="aparelho_rastreamento">Metros</label><br>
-                                    <p><?=$valor_certo_furos?></p>    
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
 
@@ -216,255 +141,116 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-xs-4">
                                 <div class="form-group">
-                                    <label for="perfuratriz">Perfuratriz:</label>
-                                        <?= $rdfs[0]->perfuratriz == "0" ? '-' : '' ?>
-                                        <?php foreach($perfuratriz as $perf){  ?>
-                                            <?= $perf->id == $rdfs[0]->perfuratriz ? '<p>'.$perf->nome.'</p>' : '' ?>
-                                        <?php } ?>
+                                    <p><b>Data Furo Piloto: </b><?= $rdfs[0]->data_furo_piloto != '' ? date("d/m/Y", $rdfs[0]->data_furo_piloto) : '--'?></p>               
+                                    <p><b>Data Puxe: </b><?= $rdfs[0]->data_puxe != '' ? date("d/m/Y", $rdfs[0]->data_puxe) : '--'?></p>   
+                                    <br>
+                                    <p><b>No de dutos instalados: </b><?=$rdfs[0]->n_dutos?></p>   
+                                    <p><b>Diâmetros: </b><?=$rdfs[0]->diametro?></p>   
+                                    <p><b>Material: </b><?=$rdfs[0]->Material?></p>   
+                                    <p><b>Fornecedor: </b><?=$rdfs[0]->fornecedor?></p>   
+
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-xs-4">
                                 <div class="form-group">
-                                    <label for="aparelho_rastreamento">Rastreador de navegação:</label>
-                                    <?= $rdfs[0]->aparelho_rastreamento == "0" ? '-' : '' ?>
-                                    <?= $rdfs[0]->aparelho_rastreamento == "1" ? '<p>Rodovia</p>' : '' ?>
+                                    <p><b>Estaca Inicial PV: </b><?=$rdfs[0]->estaca_inicial_a?></p>
+                                    <p><b>Estaca Final PV: </b><?=$rdfs[0]->estaca_inicial_b?></p>
+                                    <br>
+                                    <p><b>Sequência de alargamento:</b></p>
+                                    <p><b>1º pré 0 : </b><?=$rdfs[0]->_1_pre_0?></p>
+                                    <p><b>2º pré 0 : </b><?=$rdfs[0]->_2_pre_0?></p>
+                                    <p><b>3º pré 0 : </b><?=$rdfs[0]->_3_pre_0?></p>
 
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-xs-4">
+                                <div class="form-group">
+                                    <p><b>Furo No: </b><?=$rdfs[0]->furo_numero?></p>
+                                    <p><b>Metros: </b><?=$valor_certo_furos?></p>
+                                    <br>
+                                    <br>  
+                                    <p><b>Solo: </b>
+                                        <?= $rdfs[0]->solo == "0" ? 'NA' : '' ?>
+                                        <?= $rdfs[0]->solo == "1" ? 'Rocha' : '' ?>
+                                        <?= $rdfs[0]->solo == "2" ? 'Argila' : '' ?>
+                                        <?= $rdfs[0]->solo == "3" ? 'Areia' : '' ?>
+                                        <?= $rdfs[0]->solo == "4" ? 'Misto' : '' ?>
+                                    </p>
+                                    <p><b>Travessia: </b>
+                                        <?= $rdfs[0]->travessia == 0 ? 'NA' : '' ?>
+                                        <?= $rdfs[0]->travessia == 1 ? 'Rodovia' : '' ?> 
+                                        <?= $rdfs[0]->travessia == 2 ? 'Ferrovia' : '' ?> 
+                                        <?= $rdfs[0]->travessia == 3 ? 'Avenida' : '' ?> 
+                                        <?= $rdfs[0]->travessia == 4 ? 'Rua' : '' ?> 
+                                        <?= $rdfs[0]->travessia == 5 ? 'Rio' : '' ?> 
+                                        <?= $rdfs[0]->travessia == 6 ? 'Area aberta' : '' ?>
+                                    </p>
+                                    <p><b>Aplicação: </b>
+                                        <?= $rdfs[0]->aplicacao == 0 ? 'NA' : '' ?>
+                                        <?= $rdfs[0]->aplicacao == 1 ? 'Água' : '' ?>
+                                        <?= $rdfs[0]->aplicacao == 2 ? 'Esgoto' : '' ?>
+                                        <?= $rdfs[0]->aplicacao == 3 ? 'Eletricidade' : '' ?>
+                                        <?= $rdfs[0]->aplicacao == 4 ? 'Gás' : '' ?>
+                                        <?= $rdfs[0]->aplicacao == 5 ? 'Telefonia' : '' ?>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
 
-                                    <?php foreach($rastreador as $rastre){  ?>
-                                        <?php if($rastre->id == 0){ ?>
-                                            <p>NA</p>
-                                        <?php } ?>
-                                        <p><?= $rastre->id == $rdfs[0]->aparelho_rastreamento ? $rastre->fabricante.' '.$rastre->nome : '' ?></p>
+                    <div class="row_border">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                <div class="form-group">
+                                    <?php if(count($produtos)>0){ ?>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <td><b>Produto</b></td>
+                                                    <td><b>Unid. Medida</b></td>
+                                                    <td><b>Qtd.</b></td>
+                                                </tr>
+                                            </thead>
+                                            <?php foreach($produtos as $row){
+
+                                                if($row->unidade == 1){
+                                                    $unidade = "Litros";
+                                                }
+                                                if($row->unidade == 2){
+                                                    $unidade = "Kg";
+                                                }    
+                                                $value = 0;
+                                                $data = $this->db->get_where('produtos_rdf', array('produto_id' => $row->id, 'rdf_id' => $rdf_id));
+                                                if($data->num_rows() > 0){
+                                                    $resultado = $data->result();
+                                                    $value = $resultado[0]->qtd;
+                                                }
+                                                ?>
+                                                    
+                                                    <tr>
+                                                        <td><?=$row->nome?></td>
+                                                        <td><?=$unidade?></td>
+                                                        <td><?=$value?></td>
+                                                    </tr>
+                                            
+                                            <?php } ?>
+                                        </table>
                                     <?php } ?>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="qtd_solda">Quantidade de Solda: </label>
-                                    <p> <?=$rdfs[0]->qtd_solda?></p>         
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
 
                     <div class="row_border">
                         <div class="row">
-                            <p>Tubulação Instalada</p>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
+                            <div class="col-lg-12 col-md-12 col-xs-12">
                                 <div class="form-group">
-                                    <label for="n_dutos">Nº de dutos:</label>
-                                    <p><?=$rdfs[0]->n_dutos?></p>            
+                                <p><b>INFORMAÇÕES GERAIS: </b><br><?=$rdfs[0]->info != "" ?  '<p>'.$rdfs[0]->info.'</p>' : 'NA' ?></p>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="diametro">Diâmetro: </label>
-                                    <p><?=$rdfs[0]->diametro?></p>            
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="material">Material:</label>
-                                    <p><?=$rdfs[0]->material?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-xs-3">
-                                <div class="form-group">
-                                    <label for="fornecedor">Fornecedor:</label>
-                                    <p><?=$rdfs[0]->fornecedor?></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <?php if(count($produtos)>0){ ?>
-                        <div class="row_border">
-                            <label for="produtos" style="font-weight: 800;">Produtos</label>
-                            <div class="row">
-                            <?php foreach($produtos as $row){
-
-                                if($row->unidade == 1){
-                                    $unidade = "Litros";
-                                }
-                                if($row->unidade == 2){
-                                    $unidade = "Kg";
-                                }    
-                                $value = 0;
-                                $data = $this->db->get_where('produtos_rdf', array('produto_id' => $row->id, 'rdf_id' => $rdf_id));
-                                if($data->num_rows() > 0){
-                                    $resultado = $data->result();
-                                    $value = $resultado[0]->qtd;
-                                }
-                                ?>
-                                <div class="col-lg-6 col-xs-6">
-                                    <div class="form-group">
-                                        <label for="produtos"><?=$row->nome?>  (<?=$unidade?>)</label>
-                                        <?=$value?>
-                                    </div>
-                                </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    <?php } ?>
-
-                    <div class="row_border">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="solo">Solo:</label>
-                                        <p><?= $rdfs[0]->solo == "0" ? 'NA' : '' ?></p>
-                                        <p><?= $rdfs[0]->solo == "1" ? 'Rocha' : '' ?></p>
-                                        <p><?= $rdfs[0]->solo == "2" ? 'Argila' : '' ?></p>
-                                        <p><?= $rdfs[0]->solo == "3" ? 'Areia' : '' ?></p>
-                                        <p><?= $rdfs[0]->solo == "4" ? 'Misto' : '' ?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="travessia">Travessia: <?=$rdfs[0]->travessia?></label>
-                                        <p> <?= $rdfs[0]->travessia == 0 ? 'NA' : '' ?></p>
-                                        <p> <?= $rdfs[0]->travessia == 1 ? 'Rodovia' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->travessia == 2 ? 'Ferrovia' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->travessia == 3 ? 'Avenida' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->travessia == 4 ? 'Rua' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->travessia == 5 ? 'Rio' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->travessia == 6 ? 'Area aberta' : '' ?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="aplicacao">Aplicação: </label>
-                                        <p> <?= $rdfs[0]->aplicacao == 0 ? 'NA' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->aplicacao == 1 ? 'Água' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->aplicacao == 2 ? 'Esgoto' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->aplicacao == 3 ? 'Eletricidade' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->aplicacao == 4 ? 'Gás' : '' ?> </p>
-                                        <p> <?= $rdfs[0]->aplicacao == 5 ? 'Telefonia' : '' ?> </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row_border">
-                        <p>Riscos Ambientais</p>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="vazamento_oleo">Vaz. de óleo:</label>
-                                        <p><?= ($rdfs[0]->vazamento_oleo == 2 or $rdfs[0]->vazamento_oleo == 0) ? 'Não' : '' ?></p>
-                                        <p><?= $rdfs[0]->vazamento_oleo == 1 ? 'SIM' : '' ?> </p>  
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="descricao_medidas_vazamento_oleo">Descrição das medidas: </label>  
-                                    <p><?=$rdfs[0]->qtd_solda?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="comentario_cliente_vazamento_oleo">Comentários do cliente: </label>  
-                                    <p><?=$rdfs[0]->qtd_solda?></p>       
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="solo">Vaz. de gás:</label>
-                                        <p><?= ($rdfs[0]->vazamento_gas == 2 or $rdfs[0]->vazamento_gas == 0) ? 'Não' : '' ?></p>
-                                        <p><?= $rdfs[0]->vazamento_gas == 1 ? 'SIM' : '' ?> </p> 
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="descricao_medidas_vazamento_gas">Descrição das medidas: </label>  
-                                    <p><?=$rdfs[0]->descricao_medidas_vazamento_gas?></p>          
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="comentario_cliente_vazamento_gas">Comentários do cliente: </label>  
-                                    <p><?=$rdfs[0]->comentario_cliente_vazamento_gas?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="riscos_desmatamento">Desmatamento:</label>
-                                    <p><?= ($rdfs[0]->riscos_desmatamento == 2 or $rdfs[0]->riscos_desmatamento == 0) ? 'Não' : '' ?></p>
-                                    <p><?= $rdfs[0]->riscos_desmatamento == 1 ? 'SIM' : '' ?> </p>     
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="descricao_medidas_desmatamento">Descrição das medidas: </label>  
-                                    <p><?=$rdfs[0]->descricao_medidas_desmatamento?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="comentario_cliente_desmatamento">Comentários do cliente: </label>  
-                                    <p><?=$rdfs[0]->comentario_cliente_desmatamento?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="riscos_outros">Outros:</label>
-                                        <p><?= ($rdfs[0]->riscos_outros == 2 or $rdfs[0]->riscos_outros == 0) ? 'Não' : '' ?></p>
-                                        <p><?= $rdfs[0]->riscos_outros == 1 ? 'SIM' : '' ?> </p>     
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="descricao_medidas_outros">Descrição das medidas: </label>  
-                                    <p><?=$rdfs[0]->descricao_medidas_outros?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="comentario_cliente_outros">Comentários do cliente: </label>  
-                                    <p><?=$rdfs[0]->comentario_cliente_outros?></p>     
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row_border">
-                        <div class="row">
-                            <p>Sequência de alargamento:</p>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="1_pre_0">1º pré 0 :</label>
-                                    <p><?=$rdfs[0]->_1_pre_0?></p>           
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="2_pre_0">2º pré 0 :</label>
-                                    <p><?=$rdfs[0]->_2_pre_0?></p>            
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-xs-4">
-                                <div class="form-group">
-                                    <label for="3_pre_0">3º pré 0 :</label>
-                                    <p><?=$rdfs[0]->_3_pre_0?></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row_border">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label for="info" style="font-weight: 800;">INFORMAÇÕES GERAIS:</label><br>
-                                    <?=$rdfs[0]->info != "" ?  '<p>'.$rdfs[0]->info.'</p>' : 'NA' ?>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <?php 
@@ -490,14 +276,13 @@
                                 <?php } ?>
                             </div>
                         </div>
-                    <?php } 
-                    // p($lista_de_furos);
-                    ?>
-                        
+                    <?php } ?>
                     <div class="row_border">
                         <div class="row">
                             <div class="col-lg-12">
-                            <label for="info" style="font-weight: 800;">LISTA DE FUROS</label><br>
+                                <br>
+                                <label for="info" style="font-weight: 800;">LISTA DE FUROS</label><br>
+                                <br>
                                 <?php if(count($lista_de_furos)>0){ ?>
                                     <table class="table table-striped">
                                         <thead>
@@ -560,6 +345,10 @@
                             </div>
                         </div>
                     </div>
+                         
+                    
+
+                    
             </div>
         </div>
       </div>

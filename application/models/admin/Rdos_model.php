@@ -16,6 +16,45 @@ class Rdos_model extends CI_Model
 		return $data;
 	}
 
+    public function lista_rdos_by_obra_id_data($obra_id, $data){
+        
+        // echo'---------------';
+        
+        // echo'<br>';
+        
+        // print_r($data);
+       
+        // echo'<br>';
+
+        // echo $n_date = date('d/m/Y', $data);
+
+        // echo'<br>';
+
+        // echo '1728039857';
+        // echo'<br>';
+        // echo  date('d/m/Y', '1728039857');
+
+        // echo'<br>';
+        // echo'---------------';
+        // echo'<br>';
+        // echo'<br>';
+        
+
+
+
+
+        $this->db->select('*');
+		$this->db->from('rdos');
+		$this->db->where('id_obra', $obra_id);
+		// $this->db->where('dia_criada', $data);
+		$this->db->order_by('rdos.id', 'DESC');
+        $this->db->limit(1);
+
+		$data = $this->db->get()->result();
+
+		return $data;
+    }
+
     public function lista_rdos_gestor(){
 		$this->db->select('rdos.id, rdos.data, obras.id as obra_id, obras.nome as nome_obra');
 		$this->db->select('funcionarios.nome as funcionario');

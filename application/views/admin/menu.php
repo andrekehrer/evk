@@ -82,6 +82,7 @@
     <?php } ?>  
     <hr>
     <?php if($_SESSION['backend']['permissao']==99){ ?>
+
       <p style="color:white;margin: 0 auto;">Lista de todos Relatórios</p>
     <?php } ?>  
     <?php if($_SESSION['backend']['permissao']==2 || $_SESSION['backend']['permissao']==99){ ?>
@@ -99,6 +100,16 @@
         </a>
       </li>
     <?php } ?>  
+    <?php if($_SESSION['backend']['permissao']==99){ ?>
+      
+      <hr>
+      <li class="nav-item">
+        <a class="nav-link" href="<?=base_url(); ?>admin/config">
+          <span class="menu-title">Configurações</span>
+          <i class="mdi mdi-bullseye menu-icon"></i>
+        </a>
+      </li>
+    <?php } ?>
     <!--
     <li class="nav-item">
       <a class="nav-link" href="<?=base_url(); ?>/admin/viagens">
