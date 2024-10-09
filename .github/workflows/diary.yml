@@ -1,5 +1,8 @@
 on: 
   push:
+    paths-ignore:
+      - 'vendor/**'
+      - 'system/**'
     branches:
       - diary
       - hml
