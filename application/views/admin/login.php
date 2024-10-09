@@ -15,6 +15,7 @@
             <div class="col-lg-6 mx-auto">
                 <div class="auth-form-light text-center p-5">
                     <p style="margin: 0;font-size: 20px;color: #2d2f47;"><?php print_r($frase[0]->frase);?></p>
+                    ...
                 </div>
                 <br>
                 <div class="auth-form-light text-center p-5">
