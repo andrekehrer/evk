@@ -3,6 +3,7 @@ on:
     paths-ignore:
       - 'vendor/**'
       - 'system/**'
+      - 'dash/assets/scss/'
     branches:
       - diary
       - hml
