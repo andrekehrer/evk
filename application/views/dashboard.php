@@ -157,7 +157,6 @@
 
 <script>
     $(document).ready(function(){
-
         function ObterPosicao(lat, long){
             $("input[name=txtlatitude]").val(lat);
             $("input[name=txtlongitude]").val(long);
@@ -174,7 +173,6 @@
                 ObterPosicao(position.coords.latitude, position.coords.longitude);
         }
         ExibirLocalizacao();
-
     });
 </script>
 </html>
