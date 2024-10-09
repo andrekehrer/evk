@@ -162,7 +162,6 @@
             $("input[name=txtlatitude]").val(lat);
             $("input[name=txtlongitude]").val(long);
         }
-
         function ExibirLocalizacao(){
         var latitude = 0;
         var longitude = 0;
@@ -171,11 +170,9 @@
                     navigator.geolocation.getCurrentPosition(showPosition);
                 }
         }
-
         function showPosition(position) {
                 ObterPosicao(position.coords.latitude, position.coords.longitude);
         }
-
         ExibirLocalizacao();
 
     });
