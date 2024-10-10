@@ -15,6 +15,7 @@ class Funcionarios_model extends CI_Model
         $data = array(
 			'nome'          => $post['nome'],
 			'status'        => ($post['status'] ? 1 : 0),
+			'motorista'     => ($post['motorista'] ? 1 : 0),
 			'sobrenome'     => $post['sobrenome'],
 			'telefone'      => $post['telefone'],
 			'email'         => $post['email'],

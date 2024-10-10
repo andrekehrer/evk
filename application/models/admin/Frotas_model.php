@@ -27,6 +27,12 @@ class Frotas_model extends CI_Model
 		return $data;
 	}
 
+	public function get_veiculos(){
+		$data = $this->db->get_where('frotas', array('perfuratriz' => 0))->result();
+		return $data;
+	}
+
+
 	public function lista_frotas_com_nome_by_rdo_id($rdo_id){
 		$this->db->select('veiculos_rdo.*, frotas.nome');
 		$this->db->from('veiculos_rdo');

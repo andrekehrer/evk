@@ -120,14 +120,29 @@ class Rdos_model extends CI_Model
 		return $data;
     }
 
-    public function inserir_funcionario_no_rdo($rdo_id, $funcionario){
+    public function inserir_funcionario_no_rdo($rdo_id, $funcionario, $lat, $longe){
 
+        
         $data = array(
             'funcionario_id' => $funcionario,
             'rdo_id' => $rdo_id,
+            'latitude' => $lat,
+            'longetude' => $longe,
         );
         $this->db->insert('funcionarios_rdo', $data);
     }
+
+    public function inserir_veiculo_no_rdo($rdo_id, $funcionario, $veiculo){
+
+        $data = array(
+            'funcionario_id' => $funcionario,
+            'frota_id' => $veiculo,
+            'rdo_id' => $rdo_id,
+        );
+        $this->db->insert('veiculos_rdo', $data);
+    }
+
+
 
     public function criar_rdo_para_checkin($obra_id, $user_id, $permissao){
         

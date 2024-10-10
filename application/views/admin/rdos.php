@@ -7,6 +7,10 @@
         a{text-decoration: none;text-transform: none;}
         .checkin-btn{background: green;color: white;padding: 6px 26px;}
         .checkin-feito-btn{background: #a4c0cb;color: white;padding: 6px 26px;}
+        .row_border{border: 1px #cbcbcb solid;padding: 20px 10px 0px 10px;margin-bottom: 10px;}
+        .caixa_ck{border: 1px gray solid;width: 280px;padding: 20px;margin: 40px 20px 20px 20px;background: #e0ebd8;}
+        .p_data{font-size: 12px !important;font-weight: 600 !important;margin-bottom: 0px !important}
+        .mdi-check-all{font-size: 30px;color: green;margin-top: -20px;}
     </style>
     <div class="container-scroller">
       <?php include('nav.php'); ?>
@@ -16,14 +20,113 @@
           <div class="content-wrapper">
             <div class="page-header">
                 <h3 class="page-title">
-                    Suas Obras
+                    <?php if($_SESSION['backend']['permissao'] == 3){ ?>
+                        Faça o Checkin
+                    <?php }else{?>
+                        Suas Obras
+                    <?php }?>
                 </h3>
             </div>
             <div class="row">
+            <?php 
+
+                $today_dia  = date("d-m-Y");
+                $this->db->select('*');
+                $this->db->from('rdos');
+                $this->db->where('dia_criada', $today_dia);
+                $this->db->order_by('rdos.id', 'DESC');
+                $data = $this->db->get()->result();
+
+                $obra_array = array();
+                foreach($data as $d){
+                    array_push($obra_array, $d->id);
+                }
+
+                $this->db->select('*');
+                $this->db->from('veiculos_rdo');
+                $this->db->where_in('rdo_id', $obra_array);
+                $veic = $this->db->get()->result();
+
+                $viculos_reservados = array();
+                foreach($veic as $v){
+                    array_push($viculos_reservados, $v->frota_id);
+                }
+
+            ?>  
+            <?php if($_SESSION['backend']['permissao'] == 3){ ?>
+                <form id="" class="forms-sample" action="<?=base_url()?>admin/rdo/checkin_funcionario_motorista/" method="POST" enctype="multipart/form-data">
+                    <input type="text" class="hidden" name="lat" value="">
+                    <input type="text" class="hidden" name="longe" value="">
+                    <div class="row_border">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="admissao">Obra</label>
+                                    <select class="form-control" id="obra" name="obra">
+                                        <?php foreach($obras as $row){  
+                                            $today_dia  = date("d-m-Y");
+                                            $this->db->select('*');
+                                            $this->db->from('rdos');
+                                            $this->db->where('id_obra', $row->id);
+                                            $this->db->where('dia_criada', $today_dia);
+                                            $this->db->order_by('rdos.id', 'DESC');
+                                            $this->db->limit(1);
+                                            $data = $this->db->get()->result();
+                                            $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
+                                        ?>
+                                            <option <?= ($checkin) ? 'disabled' : '' ?> value="<?=$row->id?>"><?=$row->obra_nome?></option>
+                                        <?php }?>
+                                    </select> 
+                                </div>
+                            </div>
+                            <?php if($_SESSION['backend']['motorista'] == 1){ ?>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="registro">Veículo</label>
+                                    <select class="form-control" id="veiculo" name="veiculo">
+                                        <option  value="0">Nenhum veículo</option>
+                                        <?php foreach($veiculos as $row){ ?>
+                                            <option <?= (in_array($row->id, $viculos_reservados)) ? 'disabled' : '' ?> value="<?=$row->id?>"><?=$row->nome?></option>
+                                        <?php }?>
+                                    
+                                    </select>      
+                                </div>
+                            </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-gradient-primary me-2 mt-2">Fazer o Checkin</button>
+                </form>
+               
+                <hr style="margin-top:30px">
+                <?php 
                 
-                <?php if(count($obras)<=0){ ?>
+                    foreach($obras as $row){ 
+                        $today_dia  = date("d-m-Y");
+                        $this->db->select('*');
+                        $this->db->from('rdos');
+                        $this->db->where('id_obra', $row->id);
+                        $this->db->where('dia_criada', $today_dia);
+                        $this->db->order_by('rdos.id', 'DESC');
+                        $this->db->limit(1);
+                        $data = $this->db->get()->result();
+                        $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
+
+                         if($checkin){ ?> 
+                            <div class="caixa_ck">
+                                <p class="p_data"><?=$data[0]->dia_criada?></p>
+                                <p><?=$row->obra_nome?>  <i class="mdi mdi-check-all"></i></p>
+                            </div>
+                        <?php }
+                    }
+                ?>
+                <?php }?>
+
+                
+
+                <?php if(count($obras)<=0 ){ ?>
                     <p class="card-description"> Nenhuma Obra</code><br></p>
-                <?php }else { ?>
+                <?php }elseif($_SESSION['backend']['permissao'] != 3) { ?>
 
                     <?php foreach($obras as $row){ 
 
@@ -40,9 +143,7 @@
                        
                         ?>
                         <div class="col-lg-4">
-                        <?php if($_SESSION['backend']['permissao'] != 3){?>
                             <a href="<?=base_url()?>admin/rdo/lista_rdo/<?=$row->id?>">
-                        <?php } ?>
                                 <div class="card">
                                     <div class="card-body" style="text-align: center;cursor:pointer;border: 3px #4ac4bf solid;border-radius: 8px;">
                                         <p class="p_obra"><b><?=$row->obra_nome?></b></p>
@@ -66,11 +167,8 @@
                                     </div>
                                 </div>
                             </a>
-                            <?php if($_SESSION['backend']['permissao'] != 3){
-                                echo '</a>';
-                            } ?>
-
                         </div>
+
                     <?php } ?>
 
                 <?php } ?>
@@ -102,6 +200,27 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
     <script>
         $(document).ready( function () {
+            
+            function ObterPosicao(lat, long){
+                $("input[name=lat]").val(lat);
+                $("input[name=longe]").val(long);
+            }
+
+            function ExibirLocalizacao(){
+            var latitude = 0;
+            var longitude = 0;
+
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    }
+            }
+
+            function showPosition(position) {
+                    ObterPosicao(position.coords.latitude, position.coords.longitude);
+            }
+
+            ExibirLocalizacao();
+            
             $('#example').DataTable(
                 {
                     order: [[2, 'desc']],

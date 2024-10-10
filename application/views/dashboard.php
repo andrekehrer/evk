@@ -42,8 +42,6 @@
     </style>
 </head>
 <body>
-<input type="text" class="hidden" name="txtlatitude" value="">
-<input type="text" class="hidden" name="txtlongitude" value="">
         <!-- Card 1 - Bootstrap Brain Component -->
 <section class="py-3 py-md-5">
     <div class="container">

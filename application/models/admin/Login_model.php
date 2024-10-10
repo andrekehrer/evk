@@ -50,6 +50,7 @@ class Login_model extends CI_Model
 				'id' 				=> $query[0]->id,
 				'nome' 				=> $query[0]->nome,
 				'permissao' 		=> $query[0]->permissao,
+				'motorista' 		=> $query[0]->motorista,
 				'sobrenome' 		=> $query[0]->sobrenome,
 				'foto' 				=> $query[0]->foto,
 				'currentSessionId'  => $currentSession,

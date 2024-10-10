@@ -22,13 +22,14 @@ class Rdo extends CI_Controller {
         $id = $_SESSION['backend']['id'];
 
         $data['id_usuario'] = $id;
-
+        
         if($_SESSION['backend']['permissao']==99){
             $data['rdos'] = $this->rdos_model->lista_rdos_gestor();
             $this->load->view('admin/lista_rdo_gestor', $data);
 
         }else{
             $data['obras'] = $this->obras_model->get_obra_id_usuario($id);
+            $data['veiculos'] = $this->frotas_model->get_veiculos($id);
             $this->load->view('admin/rdos', $data);
         }
         
@@ -57,6 +58,35 @@ class Rdo extends CI_Controller {
         }else{
             $func_adicionado = $this->rdos_model->inserir_funcionario_no_rdo($rdo[0]->id, $id_usuario);
         }
+        redirect('admin/rdo/');    
+
+    }
+
+    public function checkin_funcionario_motorista(){
+        
+        $today_dia  = date("d-m-Y");
+        
+        $id_usuario = $_SESSION['backend']['id'];
+        $obra_id = $_POST['obra'];
+        
+        
+        $rdo = $this->rdos_model->lista_rdos_by_obra_id_data($obra_id, $today_dia);
+
+        if(!$rdo){
+            $permissao = $_SESSION['backend']['permissao'];
+            
+            $rdo_id = $this->rdos_model->criar_rdo_para_checkin($obra_id, $id_usuario, $permissao);
+
+            $this->rdos_model->inserir_funcionario_no_rdo($rdo_id, $id_usuario, $_POST['lat'], $_POST['longe']);
+        }else{
+            $rdo_id = $rdo[0]->id;
+            $this->rdos_model->inserir_funcionario_no_rdo($rdo[0]->id, $id_usuario, $_POST['lat'], $_POST['longe']);
+        }
+
+        if($_POST['veiculo'] != 0){
+            $this->rdos_model->inserir_veiculo_no_rdo($rdo_id, $id_usuario, $_POST['veiculo']);
+        }
+
         redirect('admin/rdo/');    
 
     }

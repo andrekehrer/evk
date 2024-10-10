@@ -230,7 +230,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label for="nome">Motorista?</label><br>
+                                    <!-- <input class="form-check-input" type="checkbox" role="switch" name="status" id="status" <?= $funcionario[0]->status == 1 ? 'checked' : '' ?> > -->
+                                    <div class="switch" style="margin-top: -14px;">
+                                        <input type="checkbox" name="motorista" id="motorista" <?=$funcionario[0]->motorista == 1 ? 'checked' : '' ?>/>
+                                        <label id="gooey" class="<?=$funcionario[0]->motorista == 1 ? 'on' : 'off' ?>" for="motorista">On/Off</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="cargo">Função</label>
                                     <select class="form-control" name="cargo" id="cargo">
@@ -253,7 +263,7 @@
                                     </select>        
                                 </div>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="permissao">Permissão</label>
                                     <select class="form-control" name="permissao" id="permissao">
@@ -478,9 +488,9 @@
         $(document).ready(function(){	
             $("#cpf").mask("999.999.999-99");
         });
-var btnUpload = $("#upload_file"),
+        var btnUpload = $("#upload_file"),
 		btnOuter = $(".button_outer");
-	btnUpload.on("change", function(e){
+    	btnUpload.on("change", function(e){
 		var ext = btnUpload.val().split('.').pop().toLowerCase();
 		if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
 			$(".error_msg").text("Not an Image...");
