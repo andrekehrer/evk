@@ -37,7 +37,7 @@ class Login_model extends CI_Model
 		$this->db->where('email', $mail);
 		$this->db->where('senha', $pass);
 		$this->db->where('status', 1);
-		$this->db->where('permissao !=', 3);
+
 		$query = $this->db->get()->result();
 
 		if (isset($query[0]->id)) {

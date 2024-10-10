@@ -16,41 +16,19 @@ class Rdos_model extends CI_Model
 		return $data;
 	}
 
-    public function lista_rdos_by_obra_id_data($obra_id, $data){
-        
-        // echo'---------------';
-        
-        // echo'<br>';
-        
-        // print_r($data);
-       
-        // echo'<br>';
-
-        // echo $n_date = date('d/m/Y', $data);
-
-        // echo'<br>';
-
-        // echo '1728039857';
-        // echo'<br>';
-        // echo  date('d/m/Y', '1728039857');
-
-        // echo'<br>';
-        // echo'---------------';
-        // echo'<br>';
-        // echo'<br>';
-        
-
-
-
+    public function lista_rdos_by_obra_id_data($obra_id, $data_dia = false){
 
         $this->db->select('*');
 		$this->db->from('rdos');
 		$this->db->where('id_obra', $obra_id);
-		// $this->db->where('dia_criada', $data);
+        if($data_dia == true){
+            $this->db->where('dia_criada', $data_dia);
+        }
 		$this->db->order_by('rdos.id', 'DESC');
         $this->db->limit(1);
 
 		$data = $this->db->get()->result();
+		// p($this->db->last_query());
 
 		return $data;
     }
@@ -121,7 +99,6 @@ class Rdos_model extends CI_Model
 
     public function assinaturas_rdo_by_rdo_id($obra_id){
 
-
         $this->db->select('assinatura_equipe_rdo.*, funcionarios.nome, funcionarios.sobrenome');
 		$this->db->from('assinatura_equipe_rdo');
 		$this->db->join('funcionarios', 'funcionarios.id = assinatura_equipe_rdo.funcionario_id', 'left');
@@ -141,6 +118,33 @@ class Rdos_model extends CI_Model
 		$data = $this->db->get()->result();
         // $data = $this->db->get_where('assinatura_equipe_rdo', array('rdo_id' => $rdo_id))->result();
 		return $data;
+    }
+
+    public function inserir_funcionario_no_rdo($rdo_id, $funcionario){
+
+        $data = array(
+            'funcionario_id' => $funcionario,
+            'rdo_id' => $rdo_id,
+        );
+        $this->db->insert('funcionarios_rdo', $data);
+    }
+
+    public function criar_rdo_para_checkin($obra_id, $user_id, $permissao){
+        
+        $today      = strtotime(date("Y-m-d h:i:sa"));
+        $today_dia  = date("d-m-Y");
+
+        $data = array(
+            'id_obra' => $obra_id,
+            'funcionario_id' => ($permissao == 2 ? $user_id : 0),
+            'data' => $today,
+            'data_alterada' => $today,
+            'dia_criada' => $today_dia,
+        );
+
+        $this->db->insert('rdos', $data);
+        $rdo_id = $this->db->insert_id();
+        return $rdo_id;
     }
 
 	public function insere_item_rdo_gravar($id_obra, $id_rdo, $post){

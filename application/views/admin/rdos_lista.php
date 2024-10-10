@@ -11,15 +11,28 @@
           <div class="content-wrapper">
             <div class="page-header">
                 <h3 class="page-title">
-                    <!-- <span class="page-title-icon bg-gradient-primary2 text-white me-2">
-                    <i class="mdi mdi-airplane-takeoff"></i>
-                    </span>  -->
                     RDOs
                 </h3>
             </div>
             <div class="row mb-4">
                 <div class="col-lg-12">
-                    <a href="<?=base_url()?>admin/rdo/criar_rdo/<?=$obra_id?>" class="btn btn-block btn-gradient-primary">  <i class="mdi mdi-format-list-bulleted"></i> Criar RDO</a>
+                    <?php 
+                        $today_dia  = date("d-m-Y");
+                        $this->db->select('*');
+                        $this->db->from('rdos');
+                        $this->db->where('id_obra', $obra_id);
+                        $this->db->where('dia_criada', $today_dia);
+                        $this->db->order_by('rdos.id', 'DESC');
+                        $this->db->limit(1);
+                        $data = $this->db->get()->result();
+                    ?>
+                    <?php if(isset($data[0]->funcionario_id) and $data[0]->funcionario_id != $_SESSION['backend']['id']){?>
+                        <a href="<?=base_url()?>admin/rdo/checkin_funcionario/<?=$obra_id?>/<?=$_SESSION['backend']['id']?>/" class="btn btn-block btn-gradient-primary">  <i class="mdi mdi-format-list-bulleted"></i> Fazer Chekin</a>
+                    <?php }else{?>
+                        <a href="<?=base_url()?>admin/rdo/criar_rdo/<?=$obra_id?>" class="btn btn-block btn-gradient-primary">  <i class="mdi mdi-format-list-bulleted"></i> Criar RDO</a>
+                    <?php }?>
+
+                
                 </div>
             </div>    
             <div class="row">

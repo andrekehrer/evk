@@ -4,8 +4,9 @@
         .p_obra{font-size: 0.9em;text-decoration: none;text-transform: none;color: #3a3b53;padding: 0;margin: 0;}
         .p_cidade{font-size: 0.7em;text-decoration: none;text-transform: none;color: #3a3b53;padding: 0;margin: 0;}
         .p_clientes{font-size: 0.8em;text-decoration: none;text-transform: none;color: #317f7c;padding: 0;margin: 0;}
-
         a{text-decoration: none;text-transform: none;}
+        .checkin-btn{background: green;color: white;padding: 6px 26px;}
+        .checkin-feito-btn{background: #a4c0cb;color: white;padding: 6px 26px;}
     </style>
     <div class="container-scroller">
       <?php include('nav.php'); ?>
@@ -15,26 +16,33 @@
           <div class="content-wrapper">
             <div class="page-header">
                 <h3 class="page-title">
-                    <!-- <span class="page-title-icon bg-gradient-primary2 text-white me-2">
-                    <i class="mdi mdi-airplane-takeoff"></i>
-                    </span>  -->
                     Suas Obras
                 </h3>
             </div>
-            <!-- <div class="row mb-4">
-                <div class="col-lg-12">
-                    <a href="<?=base_url()?>admin/obras/add_obra" class="btn btn-block btn-gradient-primary">  <i class="mdi mdi-account-plus"></i> Cadastrar Obra</a>
-                </div>
-            </div>     -->
             <div class="row">
                 
                 <?php if(count($obras)<=0){ ?>
                     <p class="card-description"> Nenhuma Obra</code><br></p>
                 <?php }else { ?>
 
-                    <?php foreach($obras as $row){ //p($row);?>
+                    <?php foreach($obras as $row){ 
+
+                        $today_dia  = date("d-m-Y");
+                        $this->db->select('*');
+                        $this->db->from('rdos');
+                        $this->db->where('id_obra', $row->id);
+                        $this->db->where('dia_criada', $today_dia);
+                        $this->db->order_by('rdos.id', 'DESC');
+                        $this->db->limit(1);
+                        $data = $this->db->get()->result();
+                        
+                        $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
+                       
+                        ?>
                         <div class="col-lg-4">
+                        <?php if($_SESSION['backend']['permissao'] != 3){?>
                             <a href="<?=base_url()?>admin/rdo/lista_rdo/<?=$row->id?>">
+                        <?php } ?>
                                 <div class="card">
                                     <div class="card-body" style="text-align: center;cursor:pointer;border: 3px #4ac4bf solid;border-radius: 8px;">
                                         <p class="p_obra"><b><?=$row->obra_nome?></b></p>
@@ -42,9 +50,26 @@
                                         <p class="p_cidade"><?=$row->cidade?> - <?=$row->estado?></p>
                                         <hr style="margin: 6px;color: #adadad;">
                                         <p class="p_clientes"><?=$row->cliente_nome?></p>
+                                        <?php 
+                                            if(count($checkin) == 0){
+                                                echo '<br>';
+                                                echo '<a href="'.base_url().'admin/rdo/checkin_funcionario/'.$row->id.'/'.$id_usuario.'"><span class="checkin-btn">CHECKIN</span></a>';
+                                                echo '<br>';
+                                                echo '<br>';
+                                            }else{
+                                                echo '<br>';
+                                                echo '<span class="checkin-feito-btn">CHECKIN <i class="mdi mdi-checkbox-marked-outline"></i></span>';
+                                                echo '<br>';
+                                                echo '<br>';
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </a>
+                            <?php if($_SESSION['backend']['permissao'] != 3){
+                                echo '</a>';
+                            } ?>
+
                         </div>
                     <?php } ?>
 

@@ -21,6 +21,8 @@ class Rdo extends CI_Controller {
         $data['title'] = 'RDO - Relatório de Obras';
         $id = $_SESSION['backend']['id'];
 
+        $data['id_usuario'] = $id;
+
         if($_SESSION['backend']['permissao']==99){
             $data['rdos'] = $this->rdos_model->lista_rdos_gestor();
             $this->load->view('admin/lista_rdo_gestor', $data);
@@ -40,6 +42,23 @@ class Rdo extends CI_Controller {
         $data['rdos'] = $this->rdos_model->lista_rdos_by_obra_id($obra_id, $user_id);
 
         $this->load->view('admin/rdos_lista', $data);
+    }
+
+    public function checkin_funcionario($obra_id, $id_usuario){
+        $today_dia  = date("d-m-Y");
+
+        $rdo = $this->rdos_model->lista_rdos_by_obra_id_data($obra_id, $today_dia);
+
+        if(!$rdo){
+            $permissao = $_SESSION['backend']['permissao'];
+            $rdo_id = $this->rdos_model->criar_rdo_para_checkin($obra_id, $id_usuario, $permissao);
+
+            $func_adicionado = $this->rdos_model->inserir_funcionario_no_rdo($rdo_id, $id_usuario);
+        }else{
+            $func_adicionado = $this->rdos_model->inserir_funcionario_no_rdo($rdo[0]->id, $id_usuario);
+        }
+        redirect('admin/rdo/');    
+
     }
 
     public function criar_rdo($obra_id){  
@@ -72,7 +91,10 @@ class Rdo extends CI_Controller {
             'dia_criada' => $today_dia,
         );
         $this->db->insert('rdos', $data);
+
         $rdo_id = $this->db->insert_id();
+        
+        $this->rdos_model->inserir_funcionario_no_rdo($rdo_id, $user_id);
 
         redirect('admin/rdo/carrega_rdo/'.$obra_id.'/'.$rdo_id);
         

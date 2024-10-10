@@ -85,7 +85,6 @@
 
       <p style="color:white;margin: 0 auto;">Lista de todos Relatórios</p>
     <?php } ?>  
-    <?php if($_SESSION['backend']['permissao']==2 || $_SESSION['backend']['permissao']==99){ ?>
       <!-- <p style="color:white;margin: 0 auto;">Lista de todos Relatórios</p> -->
       <li class="nav-item">
         <a class="nav-link" href="<?=base_url(); ?>admin/rdo">
@@ -99,7 +98,6 @@
           <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>
         </a>
       </li>
-    <?php } ?>  
     <?php if($_SESSION['backend']['permissao']==99){ ?>
       
       <hr>

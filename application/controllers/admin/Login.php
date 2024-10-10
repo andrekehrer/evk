@@ -115,7 +115,7 @@ class Login extends CI_Controller {
     }
     public function logout(){
         unset($_SESSION['backend']);
-        redirect('admin');
+        redirect(base_url());
     }
     public function logout_adm(){
         unset($_SESSION['backend']);

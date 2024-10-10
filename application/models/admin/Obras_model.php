@@ -43,7 +43,10 @@ class Obras_model extends CI_Model
         return $id_obra;
 		
 	}
-
+	public function get_usuario_checkin($id){
+		$data = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id))->result();
+		return $data;
+	}
 
 	public function lista_obras(){
 		$data = $this->db->get('obras')->result();
