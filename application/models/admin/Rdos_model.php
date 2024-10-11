@@ -122,6 +122,11 @@ class Rdos_model extends CI_Model
 
     public function inserir_funcionario_no_rdo($rdo_id, $funcionario, $lat, $longe){
 
+        if($_SESSION['backend']['permissao'] == 2){
+            $data = array('funcionario_id'=> $funcionario);
+            $this->db->where('rdo_id',$rdo_id);
+            $this->db->update('rdos',$data); 
+        }
         
         $data = array(
             'funcionario_id' => $funcionario,
