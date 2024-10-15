@@ -120,16 +120,17 @@
                         $this->db->where('veiculos_rdo.rdo_id', $data[0]->id);
                         $this->db->where('veiculos_rdo.funcionario_id', $id_usuario);
                         $carro = $this->db->get()->result();
-                        $placa = 0;
-                        if($carro[0]->placa){
-                            $placa = $carro[0]->placa;
+
+                        $nome = 0;
+                        if($carro[0]->nome){
+                            $nome = $carro[0]->nome;
                         }
                         if($checkin){ ?> 
                             <div class="caixa_ck">
                                 <a href="<?=base_url()?>admin/rdo/remover_checkin/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>"><span class="span_close">X</span></a>
                                 <p class="p_data"><?=$data[0]->dia_criada?></p>
                                 <p><?=$row->obra_nome?>  <i class="mdi mdi-check-all"></i></p>
-                                <?php if($placa > 0){?>
+                                <?php if($nome > 0){?>
                                     <p><i class="mdi mdi-car" style="margin-right:10px"></i><?=$carro[0]->nome?> [<?=$carro[0]->placa?>]</p>
                                 <?php } ?>
                             </div>
