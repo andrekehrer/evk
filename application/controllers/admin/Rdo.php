@@ -62,6 +62,22 @@ class Rdo extends CI_Controller {
 
     }
 
+    public function checkout_funcionario($rdo_id, $funcionario_id, $placa){
+
+        $data = array('checkout'=> strtotime(date("Y-m-d h:i:sa")));
+        $this->db->where('rdo_id',$rdo_id);
+        $this->db->where('funcionario_id',$funcionario_id);
+        $this->db->update('funcionarios_rdo',$data);
+
+        if($placa > 0){
+            $data = array('checkout'=> strtotime(date("Y-m-d h:i:sa")));
+            $this->db->where('rdo_id',$rdo_id);
+            $this->db->where('funcionario_id',$funcionario_id);
+            $this->db->update('veiculos_rdo',$data);
+        }
+        redirect('admin/rdo/');  
+    }
+
     public function checkin_funcionario_motorista(){
         
         $today_dia  = date("d-m-Y");
@@ -130,7 +146,6 @@ class Rdo extends CI_Controller {
         
 
 	}
-
     
 
     public function remover_checkin($rdo_id, $funcionario_id, $placa){

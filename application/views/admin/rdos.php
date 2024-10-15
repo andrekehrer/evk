@@ -8,10 +8,14 @@
         .checkin-btn{background: green;color: white;padding: 6px 26px;}
         .checkin-feito-btn{background: #a4c0cb;color: white;padding: 6px 26px;}
         .row_border{border: 1px #cbcbcb solid;padding: 20px 10px 0px 10px;margin-bottom: 10px;}
-        .caixa_ck{border: 1px gray solid;width: 280px;padding: 20px;margin: 40px 20px 20px 20px;background: #e0ebd8;}
+        .caixa_ck{border: 1px gray solid;width: 280px;padding: 20px;margin: 40px 20px 20px 20px;background: #e0ebd8;box-shadow: 0px 3px 10px #3a3c53cc}
         .p_data{font-size: 12px !important;font-weight: 600 !important;margin-bottom: 0px !important}
         .mdi-check-all{font-size: 30px;color: green;margin-top: -20px;}
         .span_close{padding: 4px 8px;border-radius: 47px;background: #c01010;color: white;float:right}
+        .checkout_btn{display: block;background: #215e42;color: white;width: 100%;padding: 14px;text-align: center;margin-top: 40px;}
+        .checkout_btn_done{display: block;background: #66706b;color: white;width: 100%;padding: 14px;text-align: center;margin-top: 40px;}
+        a:hover {color: white !important;}
+        .checkout_css{background: #cacaca;color: #636363;}
     </style>
     <div class="container-scroller">
       <?php include('nav.php'); ?>
@@ -30,7 +34,6 @@
             </div>
             <div class="row">
             <?php 
-
                 $today_dia  = date("d-m-Y");
                 $this->db->select('*');
                 $this->db->from('rdos');
@@ -39,19 +42,22 @@
                 $data = $this->db->get()->result();
 
                 $obra_array = array();
-                foreach($data as $d){
-                    array_push($obra_array, $d->id);
-                }
-
-                $this->db->select('*');
-                $this->db->from('veiculos_rdo');
-                $this->db->where_in('rdo_id', $obra_array);
-                $veic = $this->db->get()->result();
-
                 $viculos_reservados = array();
-                foreach($veic as $v){
-                    array_push($viculos_reservados, $v->frota_id);
+
+                if($data){
+                    foreach($data as $d){
+                        array_push($obra_array, $d->id);
+                    }
+                    $this->db->select('*');
+                    $this->db->from('veiculos_rdo');
+                    $this->db->where_in('rdo_id', $obra_array);
+                    $veic = $this->db->get()->result();
+
+                    foreach($veic as $v){
+                        array_push($viculos_reservados, $v->frota_id);
+                    }
                 }
+                
 
             ?>  
             <?php //if($_SESSION['backend']['permissao'] == 3){ ?>
@@ -120,18 +126,36 @@
                         $this->db->where('veiculos_rdo.rdo_id', $data[0]->id);
                         $this->db->where('veiculos_rdo.funcionario_id', $id_usuario);
                         $carro = $this->db->get()->result();
+
                         $placa = 0;
-                        if($carro[0]->placa){
-                            $placa = $carro[0]->placa;
+                        if($carro[0]->nome){
+                            $placa = 1;
                         }
-                        if($checkin){ ?> 
-                            <div class="caixa_ck">
-                                <a href="<?=base_url()?>admin/rdo/remover_checkin/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>"><span class="span_close">X</span></a>
+                        $tem_checkout = 0;
+                        $tem_checkout_css = '';
+                        if($checkin){ 
+                            if($checkin[0]->checkout){$tem_checkout = $checkin[0]->checkout;$tem_checkout_css = 'checkout_css';}
+                            ?> 
+                            <div class="caixa_ck <?=$tem_checkout_css?>">
+                                <?php if($tem_checkout == 0) {?>
+                                    <a href="<?=base_url()?>admin/rdo/remover_checkin/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>"><span class="span_close">X</span></a>
+                                <?php }?>
                                 <p class="p_data"><?=$data[0]->dia_criada?></p>
                                 <p><?=$row->obra_nome?>  <i class="mdi mdi-check-all"></i></p>
                                 <?php if($placa > 0){?>
                                     <p><i class="mdi mdi-car" style="margin-right:10px"></i><?=$carro[0]->nome?> [<?=$carro[0]->placa?>]</p>
                                 <?php } ?>
+                                    <hr>
+                                <p><?=date('h:i:sa', $checkin[0]->checkin);?></p>
+
+                                <?php if($tem_checkout == 0) {?>
+                                    <a class="checkout_btn" href="<?=base_url()?>admin/rdo/checkout_funcionario/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>">Checkout</a>
+                                <?php }else{?>
+
+                                    <p><?=date('h:i:sa', $tem_checkout);?></p>
+                                    <!-- <span class="checkout_btn_done" >Checkout</span> -->
+                                <?php }?>
+
                             </div>
                         <?php }
                     }

@@ -122,7 +122,7 @@ class Rdos_model extends CI_Model
     }
 
     public function inserir_funcionario_no_rdo($rdo_id, $funcionario, $lat, $longe){
-
+        date_default_timezone_set('America/Sao_Paulo');
         if($_SESSION['backend']['permissao'] == 2){
             $data = array('funcionario_id'=> $funcionario);
             $this->db->where('rdo_id',$rdo_id);
@@ -134,16 +134,18 @@ class Rdos_model extends CI_Model
             'rdo_id' => $rdo_id,
             'latitude' => $lat,
             'longetude' => $longe,
+            'checkin' => strtotime(date("Y-m-d h:i:sa")),
         );
         $this->db->insert('funcionarios_rdo', $data);
     }
 
     public function inserir_veiculo_no_rdo($rdo_id, $funcionario, $veiculo){
-
+        date_default_timezone_set('America/Sao_Paulo');
         $data = array(
             'funcionario_id' => $funcionario,
             'frota_id' => $veiculo,
             'rdo_id' => $rdo_id,
+            'checkin' => strtotime(date("Y-m-d h:i:sa")),
         );
         $this->db->insert('veiculos_rdo', $data);
     }
@@ -151,7 +153,7 @@ class Rdos_model extends CI_Model
 
 
     public function criar_rdo_para_checkin($obra_id, $user_id, $permissao){
-        
+        date_default_timezone_set('America/Sao_Paulo');
         $today      = strtotime(date("Y-m-d h:i:sa"));
         $today_dia  = date("d-m-Y");
 
