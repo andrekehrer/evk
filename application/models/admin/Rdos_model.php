@@ -36,6 +36,7 @@ class Rdos_model extends CI_Model
     public function lista_rdos_gestor(){
 		$this->db->select('rdos.id, rdos.data, obras.id as obra_id, obras.nome as nome_obra');
 		$this->db->select('funcionarios.nome as funcionario');
+		$this->db->select('funcionarios.id as id_funcionario');
 		$this->db->from('rdos');
 		$this->db->join('funcionarios', 'funcionarios.id = rdos.funcionario_id');
 		$this->db->join('obras', 'rdos.id_obra = obras.id');
@@ -156,7 +157,7 @@ class Rdos_model extends CI_Model
 
         $data = array(
             'id_obra' => $obra_id,
-            'funcionario_id' => ($permissao == 2 ? $user_id : 0),
+            'funcionario_id' => ($permissao == 2 ? $user_id : 16),
             'data' => $today,
             'data_alterada' => $today,
             'dia_criada' => $today_dia,

@@ -131,6 +131,16 @@ class Rdo extends CI_Controller {
 
 	}
 
+    
+
+    public function remover_checkin($rdo_id, $funcionario_id, $placa){
+        if($placa > 0){
+            $this->db->delete('veiculos_rdo', array('funcionario_id' => $funcionario_id, 'rdo_id' => $rdo_id));
+        }
+        $this->db->delete('funcionarios_rdo', array('funcionario_id' => $funcionario_id, 'rdo_id' => $rdo_id));
+        redirect('admin/rdo/'); 
+        
+    }
     public function excluir_rdo(){
 
         $this->db->delete('veiculos_rdo', array('rdo_id' => $_POST['id']));

@@ -11,6 +11,7 @@
         .caixa_ck{border: 1px gray solid;width: 280px;padding: 20px;margin: 40px 20px 20px 20px;background: #e0ebd8;}
         .p_data{font-size: 12px !important;font-weight: 600 !important;margin-bottom: 0px !important}
         .mdi-check-all{font-size: 30px;color: green;margin-top: -20px;}
+        .span_close{padding: 4px 8px;border-radius: 47px;background: #c01010;color: white;float:right}
     </style>
     <div class="container-scroller">
       <?php include('nav.php'); ?>
@@ -53,13 +54,13 @@
                 }
 
             ?>  
-            <?php if($_SESSION['backend']['permissao'] == 3){ ?>
-                <form id="" class="forms-sample" action="<?=base_url()?>admin/rdo/checkin_funcionario_motorista/" method="POST" enctype="multipart/form-data">
-                    <input type="text" class="hidden" name="lat" value="">
-                    <input type="text" class="hidden" name="longe" value="">
+            <?php //if($_SESSION['backend']['permissao'] == 3){ ?>
+                <form id="" class="forms-sample" action="<?=base_url()?>admin/rdo/checkin_funcionario_motorista/" method="POST" enctype="multipart/form-data" style="max-width: 450px;">
+                    <input type="hidden" class="hidden" name="lat" value="">
+                    <input type="hidden" class="hidden" name="longe" value="">
                     <div class="row_border">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12"> 
                                 <div class="form-group">
                                     <label for="admissao">Obra</label>
                                     <select class="form-control" id="obra" name="obra">
@@ -92,16 +93,17 @@
                                     </select>      
                                 </div>
                             </div>
-                            <?php } ?>
+                            <?php //} ?>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-gradient-primary me-2 mt-2">Fazer o Checkin</button>
+                    <button type="submit" id="subButton" class="btn btn-gradient-primary me-2 mt-2" disabled>Fazer o Checkin</button>
                 </form>
                
                 <hr style="margin-top:30px">
                 <?php 
                 
                     foreach($obras as $row){ 
+                        
                         $today_dia  = date("d-m-Y");
                         $this->db->select('*');
                         $this->db->from('rdos');
@@ -111,11 +113,25 @@
                         $this->db->limit(1);
                         $data = $this->db->get()->result();
                         $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
-
-                         if($checkin){ ?> 
+                        
+                        $this->db->select('frotas.nome, frotas.placa');
+                        $this->db->from('veiculos_rdo');
+                        $this->db->join('frotas', 'veiculos_rdo.frota_id = frotas.id');
+                        $this->db->where('veiculos_rdo.rdo_id', $data[0]->id);
+                        $this->db->where('veiculos_rdo.funcionario_id', $id_usuario);
+                        $carro = $this->db->get()->result();
+                        $placa = 0;
+                        if($carro[0]->placa){
+                            $placa = $carro[0]->placa;
+                        }
+                        if($checkin){ ?> 
                             <div class="caixa_ck">
+                                <a href="<?=base_url()?>admin/rdo/remover_checkin/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>"><span class="span_close">X</span></a>
                                 <p class="p_data"><?=$data[0]->dia_criada?></p>
                                 <p><?=$row->obra_nome?>  <i class="mdi mdi-check-all"></i></p>
+                                <?php if($placa > 0){?>
+                                    <p><i class="mdi mdi-car" style="margin-right:10px"></i><?=$carro[0]->nome?> [<?=$carro[0]->placa?>]</p>
+                                <?php } ?>
                             </div>
                         <?php }
                     }
@@ -130,19 +146,19 @@
 
                     <?php foreach($obras as $row){ 
 
-                        $today_dia  = date("d-m-Y");
-                        $this->db->select('*');
-                        $this->db->from('rdos');
-                        $this->db->where('id_obra', $row->id);
-                        $this->db->where('dia_criada', $today_dia);
-                        $this->db->order_by('rdos.id', 'DESC');
-                        $this->db->limit(1);
-                        $data = $this->db->get()->result();
+                        // $today_dia  = date("d-m-Y");
+                        // $this->db->select('*');
+                        // $this->db->from('rdos');
+                        // $this->db->where('id_obra', $row->id);
+                        // $this->db->where('dia_criada', $today_dia);
+                        // $this->db->order_by('rdos.id', 'DESC');
+                        // $this->db->limit(1);
+                        // $data = $this->db->get()->result();
                         
-                        $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
+                        // $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
                        
                         ?>
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" style="margin-bottom: 20px;">
                             <a href="<?=base_url()?>admin/rdo/lista_rdo/<?=$row->id?>">
                                 <div class="card">
                                     <div class="card-body" style="text-align: center;cursor:pointer;border: 3px #4ac4bf solid;border-radius: 8px;">
@@ -152,17 +168,17 @@
                                         <hr style="margin: 6px;color: #adadad;">
                                         <p class="p_clientes"><?=$row->cliente_nome?></p>
                                         <?php 
-                                            if(count($checkin) == 0){
-                                                echo '<br>';
-                                                echo '<a href="'.base_url().'admin/rdo/checkin_funcionario/'.$row->id.'/'.$id_usuario.'"><span class="checkin-btn">CHECKIN</span></a>';
-                                                echo '<br>';
-                                                echo '<br>';
-                                            }else{
-                                                echo '<br>';
-                                                echo '<span class="checkin-feito-btn">CHECKIN <i class="mdi mdi-checkbox-marked-outline"></i></span>';
-                                                echo '<br>';
-                                                echo '<br>';
-                                            }
+                                            // if(count($checkin) == 0){
+                                            //     echo '<br>';
+                                            //     echo '<a href="'.base_url().'admin/rdo/checkin_funcionario/'.$row->id.'/'.$id_usuario.'"><span class="checkin-btn">CHECKIN</span></a>';
+                                            //     echo '<br>';
+                                            //     echo '<br>';
+                                            // }else{
+                                            //     echo '<br>';
+                                            //     echo '<span class="checkin-feito-btn">CHECKIN <i class="mdi mdi-checkbox-marked-outline"></i></span>';
+                                            //     echo '<br>';
+                                            //     echo '<br>';
+                                            // }
                                         ?>
                                     </div>
                                 </div>
@@ -210,12 +226,13 @@
             var latitude = 0;
             var longitude = 0;
 
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(showPosition);
-                    }
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                }
             }
 
             function showPosition(position) {
+                    $('#subButton').prop('disabled', false);
                     ObterPosicao(position.coords.latitude, position.coords.longitude);
             }
 

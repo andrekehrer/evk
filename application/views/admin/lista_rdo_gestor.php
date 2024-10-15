@@ -44,7 +44,16 @@
                                         
                                         <tr>
                                             <td><?=$row->id?></td>
-                                            <td><?=$row->funcionario?></td>
+                                            <td>
+                                                <?php
+                                                if($row->id_funcionario != 16){
+                                                    echo $row->funcionario;
+                                                }else{
+                                                    echo '<b>NAO ATRIBUIDO</b>';
+                                                }
+                                                ?>
+                                        
+                                            </td>
                                             <td><?=$row->nome_obra?></td>
                                             <td><?=date("d/m/Y h:i:sa", $row->data)?></td>
                                             <td>
