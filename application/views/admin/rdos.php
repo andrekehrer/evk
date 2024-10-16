@@ -25,11 +25,7 @@
           <div class="content-wrapper">
             <div class="page-header">
                 <h3 class="page-title">
-                    <?php if($_SESSION['backend']['permissao'] == 3){ ?>
-                        Faça o Checkin
-                    <?php }else{?>
-                        Suas Obras
-                    <?php }?>
+                    Faça o Checkin
                 </h3>
             </div>
             <div class="row">
@@ -106,6 +102,11 @@
                 </form>
                
                 <hr style="margin-top:30px">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        Seus Checkins
+                    </h3>
+                </div>
                 <?php 
                 
                     foreach($obras as $row){ 
@@ -162,7 +163,13 @@
                 ?>
                 <?php }?>
 
-                
+                <hr>  
+
+                <div class="page-header">
+                    <h3 class="page-title">
+                        Suas Obras
+                    </h3>
+                </div>
 
                 <?php if(count($obras)<=0 ){ ?>
                     <p class="card-description"> Nenhuma Obra</code><br></p>
