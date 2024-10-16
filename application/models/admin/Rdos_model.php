@@ -21,9 +21,9 @@ class Rdos_model extends CI_Model
         $this->db->select('*');
 		$this->db->from('rdos');
 		$this->db->where('id_obra', $obra_id);
-        if($data_dia == true){
-            $this->db->where('dia_criada', $data_dia);
-        }
+        // if($data_dia == true){
+        //     $this->db->where('dia_criada', $data_dia);
+        // }
 		$this->db->order_by('rdos.id', 'DESC');
         $this->db->limit(1);
 

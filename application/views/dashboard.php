@@ -42,14 +42,15 @@
     </style>
 </head>
 <body>
-        <!-- Card 1 - Bootstrap Brain Component -->
+<?php  //p($obras);?>
 <section class="py-3 py-md-5">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-xl-8 col-xxl-7">
                 
                 <div class="row gy-4">
-                    <?php foreach($obras as $obra){
+                    <?php 
+                    foreach($obras as $obra){
                         if($obra['icone'] == '01d' || $obra['icone'] == '01n'){
                             $ceu = 'limpo';
                         }else{
@@ -86,25 +87,22 @@
                                             <i class="bi bi-person"></i>
                                             <p class="users">
                                                 <?php foreach($obra['funcionario'] as $key => $func){ 
-                                                    if($key == 0 ){
+
                                                         echo $func['nome'];
-                                                    }else{
-                                                        echo ', '.$func['nome'];
-                                                    }
+                                                        echo ' - '.$func['carro'].' [ '.$func['placa']. ' ]';
+                                                        
+                                                        if($func['checkin']){
+                                                            echo '<br>';
+                                                            echo date('d/m/Y h:m',$func['checkin']);
+                                                        }
+                                                        if($func['checkout']){
+                                                            echo '<br>';
+                                                            echo date('d/m/Y h:m',$func['checkout']);
+                                                        }
+                                                        echo '<br>';
                                                 }?>  
                                             </p>  
-                                            <hr>
-                                            <i class="bi bi-car-front-fill"></i>
-                                            <p class="users">
-                                                <?php foreach($obra['veiculos'] as $key => $veic){ 
-                                                    if($veic['perfuratriz'] == 1){
-                                                        $per = 'pefura';
-                                                    }else{
-                                                        $per = 'carro';
-                                                    }
-                                                    echo '<span class="'.$per.'">'.$veic['nome'].'</span>';
-                                                }?>  
-                                            </p>  
+                                            
                                         </div>
                                         <div class="col-2">
                                             <div class="d-flex justify-content-end">
