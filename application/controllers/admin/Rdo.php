@@ -85,23 +85,24 @@ class Rdo extends CI_Controller {
         $id_usuario = $_SESSION['backend']['id'];
         $obra_id = $_POST['obra'];
         
-        
-        $rdo = $this->rdos_model->lista_rdos_by_obra_id_data($obra_id, $today_dia);
-
-        if(!$rdo){
-            $permissao = $_SESSION['backend']['permissao'];
+        if($obra_id != 0){
             
-            $rdo_id = $this->rdos_model->criar_rdo_para_checkin($obra_id, $id_usuario, $permissao);
+            $rdo = $this->rdos_model->lista_rdos_by_obra_id_data($obra_id, $today_dia);
 
-            $this->rdos_model->inserir_funcionario_no_rdo($rdo_id, $id_usuario, $_POST['lat'], $_POST['longe']);
-        }else{
-            $rdo_id = $rdo[0]->id;
-            $this->rdos_model->inserir_funcionario_no_rdo($rdo[0]->id, $id_usuario, $_POST['lat'], $_POST['longe']);
-        }
-
-        if($_POST['veiculo'] != 0){
-            $this->rdos_model->inserir_veiculo_no_rdo($rdo_id, $id_usuario, $_POST['veiculo']);
-        }
+            if(!$rdo){
+                $permissao = $_SESSION['backend']['permissao'];
+                
+                $rdo_id = $this->rdos_model->criar_rdo_para_checkin($obra_id, $id_usuario, $permissao);
+    
+                $this->rdos_model->inserir_funcionario_no_rdo($rdo_id, $id_usuario, $_POST['lat'], $_POST['longe']);
+            }else{
+                $rdo_id = $rdo[0]->id;
+                $this->rdos_model->inserir_funcionario_no_rdo($rdo[0]->id, $id_usuario, $_POST['lat'], $_POST['longe']);
+            }
+    
+            if($_POST['veiculo'] != 0){
+                $this->rdos_model->inserir_veiculo_no_rdo($rdo_id, $id_usuario, $_POST['veiculo']);
+            }}
 
         redirect('admin/rdo/');    
 

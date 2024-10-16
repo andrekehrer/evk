@@ -7,220 +7,202 @@
         a{text-decoration: none;text-transform: none;}
         .checkin-btn{background: green;color: white;padding: 6px 26px;}
         .checkin-feito-btn{background: #a4c0cb;color: white;padding: 6px 26px;}
-        .row_border{border: 1px #cbcbcb solid;padding: 20px 10px 0px 10px;margin-bottom: 10px;}
-        .caixa_ck{border: 1px gray solid;width: 280px;padding: 20px;margin: 40px 20px 20px 20px;background: #e0ebd8;box-shadow: 0px 3px 10px #3a3c53cc}
-        .p_data{font-size: 12px !important;font-weight: 600 !important;margin-bottom: 0px !important}
+        /* .row_border{border: 1px #cbcbcb solid;padding: 20px 10px 0px 10px;margin-bottom: 10px;} */
+        .caixa_ck{border: 1px gray solid;width: 90%;padding: 15px;margin-bottom: 40px;background: #e0ebd8;box-shadow: 0px 3px 10px #3a3c53cc;}
+        .p_data{font-size: 12px !important;font-weight: 600 !important;margin-bottom: 0px !important;text-align: center;}
         .mdi-check-all{font-size: 30px;color: green;margin-top: -20px;}
         .span_close{padding: 4px 8px;border-radius: 47px;background: #c01010;color: white;float:right}
-        .checkout_btn{display: block;background: #215e42;color: white;width: 100%;padding: 14px;text-align: center;margin-top: 40px;}
+        .checkout_btn{display: block;background: #db2f2f;color: white;width: 100%;padding: 14px;text-align: center;margin-top: 15px;}
         .checkout_btn_done{display: block;background: #66706b;color: white;width: 100%;padding: 14px;text-align: center;margin-top: 40px;}
         a:hover {color: white !important;}
         .checkout_css{background: #cacaca;color: #636363;}
+        .row1{background: white;padding: 50px 15px;margin-top: -15px;border-bottom: 3px black solid;}
+        #subButton{width: 100%;height: 45px;}
+        select.form-control {padding: 8px 8px !important;border: 1px gray solid !important;color: #000000 !important}
+        .page-header {margin-top: 10px !important}
+        p {line-height: 1 !important}
+        .card .card-body {padding: 1.5rem 0.5rem !important;}
     </style>
     <div class="container-scroller">
-      <?php include('nav.php'); ?>
-      <div class="container-fluid page-body-wrapper">
-        <?php include('menu.php'); ?>
-        <div class="main-panel">
-          <div class="content-wrapper">
-            <div class="page-header">
-                <h3 class="page-title">
-                    <?php if($_SESSION['backend']['permissao'] == 3){ ?>
-                        Faça o Checkin
-                    <?php }else{?>
-                        Suas Obras
-                    <?php }?>
-                </h3>
-            </div>
-            <div class="row">
-            <?php 
-                $today_dia  = date("d-m-Y");
-                $this->db->select('*');
-                $this->db->from('rdos');
-                $this->db->where('dia_criada', $today_dia);
-                $this->db->order_by('rdos.id', 'DESC');
-                $data = $this->db->get()->result();
-
-                $obra_array = array();
-                $viculos_reservados = array();
-
-                if($data){
-                    foreach($data as $d){
-                        array_push($obra_array, $d->id);
-                    }
-                    $this->db->select('*');
-                    $this->db->from('veiculos_rdo');
-                    $this->db->where_in('rdo_id', $obra_array);
-                    $veic = $this->db->get()->result();
-
-                    foreach($veic as $v){
-                        array_push($viculos_reservados, $v->frota_id);
-                    }
-                }
-                
-
-            ?>  
-            <?php //if($_SESSION['backend']['permissao'] == 3){ ?>
-                <form id="" class="forms-sample" action="<?=base_url()?>admin/rdo/checkin_funcionario_motorista/" method="POST" enctype="multipart/form-data" style="max-width: 450px;">
-                    <input type="hidden" class="hidden" name="lat" value="">
-                    <input type="hidden" class="hidden" name="longe" value="">
-                    <div class="row_border">
-                        <div class="row">
-                            <div class="col-lg-12"> 
-                                <div class="form-group">
-                                    <label for="admissao">Obra</label>
-                                    <select class="form-control" id="obra" name="obra">
-                                        <?php foreach($obras as $row){  
-                                            $today_dia  = date("d-m-Y");
-                                            $this->db->select('*');
-                                            $this->db->from('rdos');
-                                            $this->db->where('id_obra', $row->id);
-                                            $this->db->where('dia_criada', $today_dia);
-                                            $this->db->order_by('rdos.id', 'DESC');
-                                            $this->db->limit(1);
-                                            $data = $this->db->get()->result();
-                                            $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
-                                        ?>
-                                            <option <?= ($checkin) ? 'disabled' : '' ?> value="<?=$row->id?>"><?=$row->obra_nome?></option>
-                                        <?php }?>
-                                    </select> 
-                                </div>
-                            </div>
-                            <?php if($_SESSION['backend']['motorista'] == 1){ ?>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label for="registro">Veículo</label>
-                                    <select class="form-control" id="veiculo" name="veiculo">
-                                        <option  value="0">Nenhum veículo</option>
-                                        <?php foreach($veiculos as $row){ ?>
-                                            <option <?= (in_array($row->id, $viculos_reservados)) ? 'disabled' : '' ?> value="<?=$row->id?>"><?=$row->nome?></option>
-                                        <?php }?>
-                                    
-                                    </select>      
-                                </div>
-                            </div>
-                            <?php //} ?>
-                        </div>
+        <?php include('nav.php'); ?>
+        <div class="container-fluid page-body-wrapper">
+            <?php include('menu.php'); ?>
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    
+                <div class="row row1">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Faça seu Checkin
+                        </h3>
                     </div>
-                    <button type="submit" id="subButton" class="btn btn-gradient-primary me-2 mt-2" disabled>Fazer o Checkin</button>
-                </form>
-               
-                <hr style="margin-top:30px">
-                <?php 
-                
-                    foreach($obras as $row){ 
-                        
+                    <?php 
                         $today_dia  = date("d-m-Y");
                         $this->db->select('*');
                         $this->db->from('rdos');
-                        $this->db->where('id_obra', $row->id);
                         $this->db->where('dia_criada', $today_dia);
                         $this->db->order_by('rdos.id', 'DESC');
-                        $this->db->limit(1);
                         $data = $this->db->get()->result();
-                        $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
-                        
-                        $this->db->select('frotas.nome, frotas.placa');
-                        $this->db->from('veiculos_rdo');
-                        $this->db->join('frotas', 'veiculos_rdo.frota_id = frotas.id');
-                        $this->db->where('veiculos_rdo.rdo_id', $data[0]->id);
-                        $this->db->where('veiculos_rdo.funcionario_id', $id_usuario);
-                        $carro = $this->db->get()->result();
 
-                        $placa = 0;
-                        if($carro[0]->nome){
-                            $placa = 1;
+                        $obra_array = array();
+                        $viculos_reservados = array();
+
+                        if($data){
+                            foreach($data as $d){
+                                array_push($obra_array, $d->id);
+                            }
+                            $this->db->select('*');
+                            $this->db->from('veiculos_rdo');
+                            $this->db->where_in('rdo_id', $obra_array);
+                            $veic = $this->db->get()->result();
+
+                            foreach($veic as $v){
+                                array_push($viculos_reservados, $v->frota_id);
+                            }
                         }
-                        $tem_checkout = 0;
-                        $tem_checkout_css = '';
-                        if($checkin){ 
-                            if($checkin[0]->checkout){$tem_checkout = $checkin[0]->checkout;$tem_checkout_css = 'checkout_css';}
-                            ?> 
-                            <div class="caixa_ck <?=$tem_checkout_css?>">
-                                <?php if($tem_checkout == 0) {?>
-                                    <a href="<?=base_url()?>admin/rdo/remover_checkin/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>"><span class="span_close">X</span></a>
-                                <?php }?>
-                                <p class="p_data"><?=$data[0]->dia_criada?></p>
-                                <p><?=$row->obra_nome?>  <i class="mdi mdi-check-all"></i></p>
-                                <?php if($nome > 0){?>
-                                    <p><i class="mdi mdi-car" style="margin-right:10px"></i><?=$carro[0]->nome?> [<?=$carro[0]->placa?>]</p>
-                                <?php } ?>
-                                    <hr>
-                                <p><?=date('h:i:sa', $checkin[0]->checkin);?></p>
-
-                                <?php if($tem_checkout == 0) {?>
-                                    <a class="checkout_btn" href="<?=base_url()?>admin/rdo/checkout_funcionario/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>">Checkout</a>
-                                <?php }else{?>
-
-                                    <p><?=date('h:i:sa', $tem_checkout);?></p>
-                                    <!-- <span class="checkout_btn_done" >Checkout</span> -->
-                                <?php }?>
-
-                            </div>
-                        <?php }
-                    }
-                ?>
-                <?php }?>
-
-                
-
-                <?php if(count($obras)<=0 ){ ?>
-                    <p class="card-description"> Nenhuma Obra</code><br></p>
-                <?php }elseif($_SESSION['backend']['permissao'] != 3) { ?>
-
-                    <?php foreach($obras as $row){ 
-
-                        // $today_dia  = date("d-m-Y");
-                        // $this->db->select('*');
-                        // $this->db->from('rdos');
-                        // $this->db->where('id_obra', $row->id);
-                        // $this->db->where('dia_criada', $today_dia);
-                        // $this->db->order_by('rdos.id', 'DESC');
-                        // $this->db->limit(1);
-                        // $data = $this->db->get()->result();
-                        
-                        // $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
-                       
-                        ?>
-                        <div class="col-lg-4" style="margin-bottom: 20px;">
-                            <a href="<?=base_url()?>admin/rdo/lista_rdo/<?=$row->id?>">
-                                <div class="card">
-                                    <div class="card-body" style="text-align: center;cursor:pointer;border: 3px #4ac4bf solid;border-radius: 8px;">
-                                        <p class="p_obra"><b><?=$row->obra_nome?></b></p>
-                                        <p class="p_cidade">(<?=$row->numero_id?>)</p>
-                                        <p class="p_cidade"><?=$row->cidade?> - <?=$row->estado?></p>
-                                        <hr style="margin: 6px;color: #adadad;">
-                                        <p class="p_clientes"><?=$row->cliente_nome?></p>
-                                        <?php 
-                                            // if(count($checkin) == 0){
-                                            //     echo '<br>';
-                                            //     echo '<a href="'.base_url().'admin/rdo/checkin_funcionario/'.$row->id.'/'.$id_usuario.'"><span class="checkin-btn">CHECKIN</span></a>';
-                                            //     echo '<br>';
-                                            //     echo '<br>';
-                                            // }else{
-                                            //     echo '<br>';
-                                            //     echo '<span class="checkin-feito-btn">CHECKIN <i class="mdi mdi-checkbox-marked-outline"></i></span>';
-                                            //     echo '<br>';
-                                            //     echo '<br>';
-                                            // }
-                                        ?>
+                    ?>  
+                    <?php //if($_SESSION['backend']['permissao'] == 3){ ?>
+                    <form id="" class="forms-sample" action="<?=base_url()?>admin/rdo/checkin_funcionario_motorista/" method="POST" enctype="multipart/form-data" style="max-width: 450px;">
+                        <input type="hidden" class="hidden" name="lat" value="">
+                        <input type="hidden" class="hidden" name="longe" value="">
+                            <div class="row_border">
+                                <div class="row">
+                                    <div class="col-lg-12"> 
+                                        <div class="form-group">
+                                            <label for="admissao">Obra</label>
+                                            <select class="form-control" id="obra" name="obra">
+                                            <option  value="0">Selecione a Obra</option>
+                                                <?php foreach($obras as $row){  
+                                                    $today_dia  = date("d-m-Y");
+                                                    $this->db->select('*');
+                                                    $this->db->from('rdos');
+                                                    $this->db->where('id_obra', $row->id);
+                                                    $this->db->where('dia_criada', $today_dia);
+                                                    $this->db->order_by('rdos.id', 'DESC');
+                                                    $this->db->limit(1);
+                                                    $data = $this->db->get()->result();
+                                                    $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
+                                                ?>
+                                                    <option <?= ($checkin) ? 'disabled' : '' ?> value="<?=$row->id?>"><?=$row->obra_nome?></option>
+                                                <?php }?>
+                                            </select> 
+                                        </div>
                                     </div>
+                                    <?php if($_SESSION['backend']['motorista'] == 1){ ?>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="registro">Veículo</label>
+                                            <select class="form-control" id="veiculo" name="veiculo">
+                                                <option  value="0">Selecione e veículo</option>
+                                                <?php foreach($veiculos as $row){ ?>
+                                                    <option <?= (in_array($row->id, $viculos_reservados)) ? 'disabled' : '' ?> value="<?=$row->id?>"><?=$row->nome?></option>
+                                                <?php }?>
+                                            
+                                            </select>      
+                                        </div>
+                                    </div>
+                                    <?php //} ?>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        <button type="submit" id="subButton" class="btn btn-gradient-primary me-2 mt-2" disabled>Fazer o Checkin</button>
+                    </form>
 
-                    <?php } ?>
 
-                <?php } ?>
-                        
+                </div>
+
+                <div class="row" style="padding-top: 30px;justify-content: center;">   
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Seus Checkins
+                        </h3>
+                    </div>
+                    <?php 
+                    
+                        foreach($obras as $row){ 
+                            
+                            $today_dia  = date("d-m-Y");
+                            $this->db->select('*');
+                            $this->db->from('rdos');
+                            $this->db->where('id_obra', $row->id);
+                            $this->db->where('dia_criada', $today_dia);
+                            $this->db->order_by('rdos.id', 'DESC');
+                            $this->db->limit(1);
+                            $data = $this->db->get()->result();
+                            $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
+                            
+                            $this->db->select('frotas.nome, frotas.placa');
+                            $this->db->from('veiculos_rdo');
+                            $this->db->join('frotas', 'veiculos_rdo.frota_id = frotas.id');
+                            $this->db->where('veiculos_rdo.rdo_id', $data[0]->id);
+                            $this->db->where('veiculos_rdo.funcionario_id', $id_usuario);
+                            $carro = $this->db->get()->result();
+
+                            $placa = 0;
+                            if($carro[0]->nome){
+                                $placa = 1;
+                            }
+                            $tem_checkout = 0;
+                            $tem_checkout_css = '';
+                            if($checkin){ 
+                                if($checkin[0]->checkout){$tem_checkout = $checkin[0]->checkout;$tem_checkout_css = 'checkout_css';}
+                                ?> 
+                                <div class="caixa_ck <?=$tem_checkout_css?>">
+                                    <?php if($tem_checkout == 0) {?>
+                                        <a href="<?=base_url()?>admin/rdo/remover_checkin/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>"><span class="span_close">X</span></a>
+                                    <?php }?>
+                                    <p class="p_data"><?=$data[0]->dia_criada?></p>
+                                    <p style="text-align: center;font-size: 16px;font-weight: 800;"><?=$row->obra_nome?></p>
+                                    <p style="text-align: center;margin-bottom: 4px;color: green !important;"><i class="mdi mdi-arrow-right-bold-circle-outline"></i> <?=date('h:i:sa', $checkin[0]->checkin);?> </p>
+                                    <?php if($tem_checkout != 0) {?>
+                                        <p style="text-align: center;margin-bottom: 4px;color: #631b1b !important;"><i class="mdi mdi-arrow-left-bold-circle-outline"></i> <?=date('h:i:sa', $tem_checkout);?> </p>
+                                    <?php }?>
+                                    <hr>
+                                    <?php if($placa > 0){?>
+                                        <p style="margin-bottom: 0px;"><i class="mdi mdi-car" style="margin-right:10px"></i><?=$carro[0]->nome?> [<?=$carro[0]->placa?>]</p>
+                                    <?php } ?>
+                                        
+                                    <?php if($tem_checkout == 0) {?>
+                                        <a class="checkout_btn" href="<?=base_url()?>admin/rdo/checkout_funcionario/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>">Checkout</a>
+                                    <?php }?>
+                                </div>
+                            <?php }
+                        }
+                    ?>
+                    <?php }?>
+
+                    <hr>  
+
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Suas Obras
+                        </h3>
+                    </div>
+
+                    <?php if(count($obras)<=0 ){ ?>
+                        <p class="card-description"> Nenhuma Obra</code><br></p>
+                    <?php }elseif($_SESSION['backend']['permissao'] != 3) { ?>
+
+                        <?php foreach($obras as $row){ ?>
+                            <div class="col-lg-4" style="margin-bottom: 20px;">
+                                <a href="<?=base_url()?>admin/rdo/lista_rdo/<?=$row->id?>">
+                                    <div class="card">
+                                        <div class="card-body" style="text-align: center;cursor:pointer;border: 3px #4ac4bf solid;border-radius: 8px;padding: 1.5rem 0.5rem !important;">
+                                            <p class="p_obra"><b><?=$row->obra_nome?></b></p>
+                                            <p class="p_cidade">(<?=$row->numero_id?>)</p>
+                                            <p class="p_cidade"><?=$row->cidade?> - <?=$row->estado?></p>
+                                            <hr style="margin: 6px;color: #adadad;">
+                                            <p class="p_clientes"><?=$row->cliente_nome?></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php } ?>
+                    <?php } ?>            
+                </div>
+
+            <?php include('footer.php'); ?>
             </div>
-
-
-
-          </div>
-          <?php include('footer.php'); ?>
         </div>
-      </div>
     </div>
 
     <script src="<?=base_url(); ?>dash/assets/vendors/js/vendor.bundle.base.js"></script>
