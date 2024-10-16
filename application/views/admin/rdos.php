@@ -12,7 +12,7 @@
         .p_data{font-size: 12px !important;font-weight: 600 !important;margin-bottom: 0px !important;text-align: center;}
         .mdi-check-all{font-size: 30px;color: green;margin-top: -20px;}
         .span_close{padding: 4px 8px;border-radius: 47px;background: #c01010;color: white;float:right}
-        .checkout_btn{display: block;background: #215e42;color: white;width: 100%;padding: 14px;text-align: center;margin-top: 15px;}
+        .checkout_btn{display: block;background: #db2f2f;color: white;width: 100%;padding: 14px;text-align: center;margin-top: 15px;}
         .checkout_btn_done{display: block;background: #66706b;color: white;width: 100%;padding: 14px;text-align: center;margin-top: 40px;}
         a:hover {color: white !important;}
         .checkout_css{background: #cacaca;color: #636363;}
@@ -73,6 +73,7 @@
                                         <div class="form-group">
                                             <label for="admissao">Obra</label>
                                             <select class="form-control" id="obra" name="obra">
+                                            <option  value="0">Selecione a Obra</option>
                                                 <?php foreach($obras as $row){  
                                                     $today_dia  = date("d-m-Y");
                                                     $this->db->select('*');
@@ -94,7 +95,7 @@
                                         <div class="form-group">
                                             <label for="registro">Veículo</label>
                                             <select class="form-control" id="veiculo" name="veiculo">
-                                                <option  value="0">Nenhum veículo</option>
+                                                <option  value="0">Selecione e veículo</option>
                                                 <?php foreach($veiculos as $row){ ?>
                                                     <option <?= (in_array($row->id, $viculos_reservados)) ? 'disabled' : '' ?> value="<?=$row->id?>"><?=$row->nome?></option>
                                                 <?php }?>
