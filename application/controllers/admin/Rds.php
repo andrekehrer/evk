@@ -110,31 +110,31 @@ class Rds extends CI_Controller {
         $data['title'] = 'rdss';
         $data['detalhes_bra']   = $this->obras_model->get_obra_id_obra($obra_id);
         $data['funcionarios']   = $this->obras_model->get_funcionarios_nome_da_obra($obra_id);
-        $data['frota']          = $this->frotas_model->lista_frotas();
-        $data['produtos']       = $this->produtos_model->lista_produtos();
-        $data['rds_id']         = $rds_id;
-        $data['rdss']           = $this->rdss_model->lista_rdss_by_obra_id_e_rds($obra_id, $rds_id);
-        $frota_rds              = $this->frotas_model->lista_frotas_by_rds_id($rds_id);
+        // $data['frota']          = $this->frotas_model->lista_frotas();
+        // $data['produtos']       = $this->produtos_model->lista_produtos();
+        // $data['rds_id']         = $rds_id;
+        // $data['rdss']           = $this->rdss_model->lista_rdss_by_obra_id_e_rds($obra_id, $rds_id);
+        // $frota_rds              = $this->frotas_model->lista_frotas_by_rds_id($rds_id);
         $funcionarios_rds       = $this->frotas_model->lista_funcionarios_rds($rds_id);
-        $motorista_rds          = $this->frotas_model->lista_motoristas_by_rds_id($rds_id);
 
-        $frota_array = array();
-        foreach($frota_rds as $frota){
-            array_push($frota_array,$frota->frota_id);
-        }
 
-        $motoristas_array = array();
-        foreach($motorista_rds as $motoca){
-            array_push($motoristas_array,$motoca->funcionario_id);
-        }
+        // $frota_array = array();
+        // foreach($frota_rds as $frota){
+        //     array_push($frota_array,$frota->frota_id);
+        // }
+
+        // $motoristas_array = array();
+        // foreach($motorista_rds as $motoca){
+        //     array_push($motoristas_array,$motoca->funcionario_id);
+        // }
 
         $func_array = array();
         foreach($funcionarios_rds as $func){
             array_push($func_array,$func->funcionario_id);
         }
 
-        $data['motoristas_array']   = $motoristas_array;
-        $data['frota_array']        = $frota_array;
+        // $data['motoristas_array']   = $motoristas_array;
+        // $data['frota_array']        = $frota_array;
         $data['func_array']        = $func_array;
         // p($data);
         

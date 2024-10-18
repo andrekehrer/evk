@@ -1,11 +1,7 @@
 <?php include('header.php'); ?>
     <style>
         .btn{padding: 0.6rem 1rem;}
-        .p_obra{font-size: 0.9em;text-decoration: none;text-transform: none;color: #3a3b53;padding: 0;margin: 0;}
-        .p_cidade{font-size: 0.7em;text-decoration: none;text-transform: none;color: #3a3b53;padding: 0;margin: 0;}
-        .p_clientes{font-size: 0.8em;text-decoration: none;text-transform: none;color: #317f7c;padding: 0;margin: 0;}
-
-        a{text-decoration: none;text-transform: none;}
+        #foto_funcionario{width: 40px;height: 40px;border-radius: 50%;border: 3px #4ac5bf solid;}
     </style>
     <div class="container-scroller">
       <?php include('nav.php'); ?>
@@ -15,45 +11,77 @@
           <div class="content-wrapper">
             <div class="page-header">
                 <h3 class="page-title">
-                    <!-- <span class="page-title-icon bg-gradient-primary2 text-white me-2">
-                    <i class="mdi mdi-airplane-takeoff"></i>
-                    </span>  -->
-                    Suas Obras
+                    RDSs
                 </h3>
             </div>
-            <!-- <div class="row mb-4">
+            <div class="row mb-4">
                 <div class="col-lg-12">
-                    <a href="<?=base_url()?>admin/obras/add_obra" class="btn btn-block btn-gradient-primary">  <i class="mdi mdi-account-plus"></i> Cadastrar Obra</a>
-                </div>
-            </div>     -->
-            <div class="row">
+                    <?php 
+                        $today_dia  = date("d-m-Y");
+                        $this->db->select('*');
+                        $this->db->from('rdss');
+                        $this->db->where('id_obra', $obra_id);
+                        $this->db->where('dia_criada', $today_dia);
+                        $this->db->order_by('rdss.id', 'DESC');
+                        $this->db->limit(1);
+                        $data = $this->db->get()->result();
+                    ?>
+                    <?php if(isset($data[0]->funcionario_id) and $data[0]->funcionario_id != $_SESSION['backend']['id']){?>
+                        <a href="<?=base_url()?>admin/rds/checkin_funcionario/<?=$obra_id?>/<?=$_SESSION['backend']['id']?>/" class="btn btn-block btn-gradient-primary">  <i class="mdi mdi-format-list-bulleted"></i> Fazer Chekin</a>
+                    <?php }else{?>
+                        <a href="<?=base_url()?>admin/rds/criar_rds/<?=$obra_id?>" class="btn btn-block btn-gradient-primary">  <i class="mdi mdi-format-list-bulleted"></i> Criar RDS</a>
+                    <?php }?>
+
                 
-                <?php if(count($obras)<=0){ ?>
-                    <p class="card-description"> Nenhuma Obra</code><br></p>
-                <?php }else { ?>
-
-                    <?php foreach($obras as $row){ //p($row);?>
-                        <div class="col-lg-4">
-                            <a href="<?=base_url()?>admin/rds/lista_rds/<?=$row->id?>">
-                                <div class="card">
-                                    <div class="card-body" style="text-align: center;cursor:pointer;border: 3px #4ac4bf solid;border-radius: 8px;">
-                                        <p class="p_obra"><b><?=$row->obra_nome?></b></p>
-                                        <p class="p_cidade">(<?=$row->numero_id?>)</p>
-                                        <p class="p_cidade"><?=$row->cidade?> - <?=$row->estado?></p>
-                                        <hr style="margin: 6px;color: #adadad;">
-                                        <p class="p_clientes"><?=$row->cliente_nome?></p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                </div>
+            </div>    
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title"></h4>
+                    <?php if(count($rdss)<=0){ ?>
+                        <p class="card-description"> Nenhum RDS</code><br></p>
+                    <?php }else { ?>
+                        <table id="example" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Data</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <?php foreach($rdss as $row){ ?>
+                                        <tr>
+                                            <td><?=$row->id?></td>
+                                            <td><?=date("d/m/Y h:i:sa", $row->data)?></td>
+                                            <td>
+                                                <a href="<?=base_url()?>admin/rds/carrega_rds/<?=$obra_id?>/<?=$row->id?>/"><i class="mdi mdi-pencil mdi-24px"></i></a>
+                                                <a href="<?=base_url();?>admin/rds/export_rds/<?=$obra_id?>/<?=$row->id?>/" target="_blank"><i class="mdi mdi-file-pdf mdi-36px"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Data</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     <?php } ?>
-
-                <?php } ?>
-                        
+                  </div>
+                </div>
             </div>
-
-
-
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <a href="<?=base_url()?>admin/dashboard" class="btn btn-block btn-gradient-primary" style="width: 100%;">  <i class="mdi mdi-home"></i> DASHBOARD</a>
+            </div>
+        </div>
           </div>
           <?php include('footer.php'); ?>
         </div>
