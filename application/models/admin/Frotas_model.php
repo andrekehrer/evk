@@ -53,6 +53,11 @@ class Frotas_model extends CI_Model
 		return $data;
 	}
 
+	public function lista_funcionarios_rds($rdo_id){
+		$data = $this->db->get_where('funcionarios_rds', array('rds_id' => $rdo_id))->result();
+		return $data;
+	}
+
 	public function carro_por_usuario_rdo($rdo_id, $funcionario_id){
 		$this->db->select('veiculos_rdo.*, frotas.nome, frotas.placa');
 		$this->db->from('veiculos_rdo');
