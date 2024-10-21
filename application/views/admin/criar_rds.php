@@ -1047,7 +1047,7 @@
             <div class="content-wrapper">
                 <div style="text-align: center;">
                     <h1 class="page-title mb-3" style="font-size: 1.5rem !important;">
-                        RELATÓRIO DIÁRIO DE SOLDA (RDS) - <b><?=date('d/m/Y',$rdos[0]->data)?></b>
+                        RELATÓRIO DIÁRIO DE SOLDA (RDS) - <b><?=date('d/m/Y',$rdss[0]->data)?></b>
                     </h1>
                 </div>
                 <div class="page-header" style="margin: 50px 0px 0px 0px !important;">
@@ -1055,83 +1055,25 @@
                         <?php echo $detalhes_bra[0]->obra_nome.' ('.$detalhes_bra[0]->numero_id.')'; ?>
                     </h3>
                 </div>
-                <form class="forms-sample" action="<?=base_url()?>admin/rdo/salvar_rdo" method="POST">
+                <form class="forms-sample" action="<?=base_url()?>admin/rds/salvar_rds" method="POST">
                 <input type="hidden" class="form-control" id="id_obra" name="id_obra" value="<?=$detalhes_bra[0]->id_obra?>" readonly>  
-                <input type="hidden" class="form-control" id="id_rdo" name="id_rdo" value="<?=$rdo_id?>" readonly>  
+                <input type="hidden" class="form-control" id="id_rds" name="id_rds" value="<?=$rds_id?>" readonly>  
                     <br> <br>
                     <?php date_default_timezone_set('America/Sao_Paulo'); ?>
                     
                     <!-- <div class="row_border">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="data">Data</label>
-                                    <input type="date" class="form-control" id="data" name="data" value="<?=date("Y-m-d", $rdos[0]->data)?>" readonly>            
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="data_alterada">Data alterada: </label>
-                                    <input type="date" class="form-control" id="data_alterada" name="data_alterada" value="<?=date("Y-m-d", $rdos[0]->data_alterada)?>">            
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="funcionarios">Funcionarios</label>
-                                    <div id="sel-cont">
-                                        <select data-placeholder="Selecione os Funcionario" class="chosen-select" name="funcionario_obra[]" multiple tabindex="6">
-                                            <?php foreach($funcionarios as $row){?>
-                                                <option value="<?=$row->id?>" <?=in_array($row->id, $func_array)? "selected" : "" ?>><?=$row->nome?> <?=$row->sobrenome?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <br/>
-                                    </div>        
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label for="hora_inicio">Início do expediente: </label>
-                                    <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" value="<?=$rdos[0]->horario_inicio_exp?>">            
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label for="hora_inicio_obra">Início da obra:</label>
-                                    <input type="time" class="form-control" id="hora_inicio_obra" name="hora_inicio_obra" value="<?=$rdos[0]->horario_inicio_obra?>">
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label for="hora_termino_obra">Término da obra:</label>
-                                    
-                                    <input type="time" class="form-control" id="hora_termino_obra" name="hora_termino_obra" value="<?=$rdos[0]->horario_termino_exp?>">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label for="cliente">Cliente</label>
-                                    <input type="text" class="form-control" id="cliente" name="cliente" value="<?=$detalhes_bra[0]->cliente_nome?>" readonly>            
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="row_border">
                         <p style="text-align: center;"><b>Endereço da obra</b></p>
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="form-group">
                                     <label for="endereco">Endereco</label>
-                                    <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Endereco" value="<?=$rdos[0]->endereco == '' ? $detalhes_bra[0]->endereco: $rdos[0]->endereco?>" >
+                                    <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Endereco" value="<?=$rdss[0]->endereco == '' ? $detalhes_bra[0]->endereco: $rdss[0]->endereco?>" >
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="numero">Número</label>
-                                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?=$rdos[0]->numero == '' ? $detalhes_bra[0]->numero: $rdos[0]->numero?>" >
+                                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="<?=$rdss[0]->numero == '' ? $detalhes_bra[0]->numero: $rdss[0]->numero?>" >
                                 </div>
                             </div>
                             
@@ -1140,13 +1082,13 @@
                             <div class="col-lg-4 _30p">
                                 <div class="form-group">
                                     <label for="bairro">Bairro</label>
-                                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?=$rdos[0]->bairro == '' ? $detalhes_bra[0]->bairro: $rdos[0]->bairro?>" >
+                                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?=$rdss[0]->bairro == '' ? $detalhes_bra[0]->bairro: $rdss[0]->bairro?>" >
                                 </div>
                             </div>
                             <div class="col-lg-4 _30p">
                                 <div class="form-group">
                                     <label for="cidade">Cidade</label>
-                                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="cidade" value="<?=$rdos[0]->cidade == '' ? $detalhes_bra[0]->cidade: $rdos[0]->cidade?>"  >
+                                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="cidade" value="<?=$rdss[0]->cidade == '' ? $detalhes_bra[0]->cidade: $rdss[0]->cidade?>"  >
                                 </div>
                             </div>
 
@@ -1186,7 +1128,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="row_border">
                         <div class="row">
@@ -1196,25 +1138,25 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="tubo1_de">DE:</label>
-                                    <input type="text" class="form-control" id="tubo1_de" name="tubo1_de" value="<?=$rdos[0]->tubo1_de?>">            
+                                    <input type="text" class="form-control" id="tubo1_de" name="tubo1_de" value="<?=$rdss[0]->tubo1_de?>">            
                                 </div>
                             </div>
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="tubo1_tipo_material">Tipo Material: </label>
-                                    <input type="text" class="form-control" id="tubo1_tipo_material" name="tubo1_tipo_material" value="<?=$rdos[0]->tubo1_tipo_material?>">            
+                                    <input type="text" class="form-control" id="tubo1_tipo_material" name="tubo1_tipo_material" value="<?=$rdss[0]->tubo1_tipo_material?>">            
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="tubo1_pn">PN:</label>
-                                    <input type="text" class="form-control" id="tubo1_pn" name="tubo1_pn" value="<?=$rdos[0]->tubo1_pn?>">
+                                    <input type="text" class="form-control" id="tubo1_pn" name="tubo1_pn" value="<?=$rdss[0]->tubo1_pn?>">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="tubo1_sdr">SDR:</label>
-                                    <input type="text" class="form-control" id="tubo1_sdr" name="tubo1_sdr" value="<?=$rdos[0]->tubo1_sdr?>">
+                                    <input type="text" class="form-control" id="tubo1_sdr" name="tubo1_sdr" value="<?=$rdss[0]->tubo1_sdr?>">
                                 </div>
                             </div>
                         </div>
@@ -1224,19 +1166,19 @@
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="tubo1_comprimento">Comprimento:</label>
-                                    <input type="text" class="form-control" id="tubo1_comprimento" name="tubo1_comprimento" value="<?=$rdos[0]->tubo1_comprimento?>">            
+                                    <input type="text" class="form-control" id="tubo1_comprimento" name="tubo1_comprimento" value="<?=$rdss[0]->tubo1_comprimento?>">            
                                 </div>
                             </div>
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="tubo1_fabricante">Fabricante: </label>
-                                    <input type="text" class="form-control" id="tubo1_fabricante" name="tubo1_fabricante" value="<?=$rdos[0]->tubo1_fabricante?>">            
+                                    <input type="text" class="form-control" id="tubo1_fabricante" name="tubo1_fabricante" value="<?=$rdss[0]->tubo1_fabricante?>">            
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="tubo1_lote">No Lote:</label>
-                                    <input type="text" class="form-control" id="tubo1_lote" name="tubo1_lote" value="<?=$rdos[0]->tubo1_lote?>">
+                                    <input type="text" class="form-control" id="tubo1_lote" name="tubo1_lote" value="<?=$rdss[0]->tubo1_lote?>">
                                 </div>
                             </div>
                         </div>
@@ -1246,13 +1188,13 @@
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="tubo1_data_fabricacao">Data Fabricação:</label>
-                                    <input type="text" class="form-control" id="tubo1_data_fabricacao" name="tubo1_data_fabricacao" value="<?=$rdos[0]->tubo1_data_fabricacao?>">            
+                                    <input type="text" class="form-control" id="tubo1_data_fabricacao" name="tubo1_data_fabricacao" value="<?=$rdss[0]->tubo1_data_fabricacao?>">            
                                 </div>
                             </div>
                             <div class="col-lg-7">
                                 <div class="form-group">
                                     <label for="tubo1_obs">Observações: </label>
-                                    <input type="text" class="form-control" id="tubo1_obs" name="tubo1_obs" value="<?=$rdos[0]->tubo1_obs?>">            
+                                    <input type="text" class="form-control" id="tubo1_obs" name="tubo1_obs" value="<?=$rdss[0]->tubo1_obs?>">            
                                 </div>
                             </div>
                         </div>
@@ -1266,25 +1208,25 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="tubo2_de">DE:</label>
-                                    <input type="text" class="form-control" id="tubo2_de" name="tubo2_de" value="<?=$rdos[0]->tubo2_de?>">            
+                                    <input type="text" class="form-control" id="tubo2_de" name="tubo2_de" value="<?=$rdss[0]->tubo2_de?>">            
                                 </div>
                             </div>
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="tubo2_tipo_material">Tipo Material: </label>
-                                    <input type="text" class="form-control" id="tubo2_tipo_material" name="tubo2_tipo_material" value="<?=$rdos[0]->tubo2_tipo_material?>">            
+                                    <input type="text" class="form-control" id="tubo2_tipo_material" name="tubo2_tipo_material" value="<?=$rdss[0]->tubo2_tipo_material?>">            
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="tubo2_pn">PN:</label>
-                                    <input type="text" class="form-control" id="tubo2_pn" name="tubo2_pn" value="<?=$rdos[0]->tubo2_pn?>">
+                                    <input type="text" class="form-control" id="tubo2_pn" name="tubo2_pn" value="<?=$rdss[0]->tubo2_pn?>">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="tubo2_sdr">SDR:</label>
-                                    <input type="text" class="form-control" id="tubo2_sdr" name="tubo2_sdr" value="<?=$rdos[0]->tubo2_sdr?>">
+                                    <input type="text" class="form-control" id="tubo2_sdr" name="tubo2_sdr" value="<?=$rdss[0]->tubo2_sdr?>">
                                 </div>
                             </div>
                         </div>
@@ -1294,19 +1236,19 @@
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="tubo2_comprimento">Comprimento:</label>
-                                    <input type="text" class="form-control" id="tubo2_comprimento" name="tubo2_comprimento" value="<?=$rdos[0]->tubo2_comprimento?>">            
+                                    <input type="text" class="form-control" id="tubo2_comprimento" name="tubo2_comprimento" value="<?=$rdss[0]->tubo2_comprimento?>">            
                                 </div>
                             </div>
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="tubo2_fabricante">Fabricante: </label>
-                                    <input type="text" class="form-control" id="tubo2_fabricante" name="tubo2_fabricante" value="<?=$rdos[0]->tubo2_fabricante?>">            
+                                    <input type="text" class="form-control" id="tubo2_fabricante" name="tubo2_fabricante" value="<?=$rdss[0]->tubo2_fabricante?>">            
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="tubo2_lote">No Lote:</label>
-                                    <input type="text" class="form-control" id="tubo2_lote" name="tubo2_lote" value="<?=$rdos[0]->tubo2_lote?>">
+                                    <input type="text" class="form-control" id="tubo2_lote" name="tubo2_lote" value="<?=$rdss[0]->tubo2_lote?>">
                                 </div>
                             </div>
                         </div>
@@ -1316,13 +1258,13 @@
                             <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="tubo2_data_fabricacao">Data Fabricação:</label>
-                                    <input type="text" class="form-control" id="tubo2_data_fabricacao" name="tubo2_data_fabricacao" value="<?=$rdos[0]->tubo2_data_fabricacao?>">            
+                                    <input type="text" class="form-control" id="tubo2_data_fabricacao" name="tubo2_data_fabricacao" value="<?=$rdss[0]->tubo2_data_fabricacao?>">            
                                 </div>
                             </div>
                             <div class="col-lg-7">
                                 <div class="form-group">
                                     <label for="tubo2_obs">Observações: </label>
-                                    <input type="text" class="form-control" id="tubo2_obs" name="tubo2_obs" value="<?=$rdos[0]->tubo2_obs?>">            
+                                    <input type="text" class="form-control" id="tubo2_obs" name="tubo2_obs" value="<?=$rdss[0]->tubo2_obs?>">            
                                 </div>
                             </div>
                         </div>
@@ -1334,7 +1276,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="numero_solda" style="font-weight: 800;">Número da Solda:</label><br>
-                                    <textarea id="obs" class="form-control"  name="numero_solda" rows="3" cols="50"><?=$rdos[0]->numero_solda?></textarea>
+                                    <textarea id="obs" class="form-control"  name="numero_solda" rows="3" cols="50"><?=$rdss[0]->numero_solda?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1362,7 +1304,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_hoario_inicio" value="<?=$rdos[0]->p_hoario_inicio?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_hoario_inicio" value="<?=$rdss[0]->p_hoario_inicio?>"> 
                                     <span class="parametro_un">hrs e min</span> 
                                 </div>
                             </div>
@@ -1376,7 +1318,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_temp_placa_solda" value="<?=$rdos[0]->p_temp_placa_solda?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_temp_placa_solda" value="<?=$rdss[0]->p_temp_placa_solda?>"> 
                                     <span class="parametro_un"> oC</span> 
                                 </div>
                             </div>
@@ -1390,7 +1332,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_desalinhamento_max_perm" value="<?=$rdos[0]->p_desalinhamento_max_perm?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_desalinhamento_max_perm" value="<?=$rdss[0]->p_desalinhamento_max_perm?>"> 
                                     <span class="parametro_un"> mm</span> 
                                 </div>
                             </div>
@@ -1404,7 +1346,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_desalinhamento_obs" value="<?=$rdos[0]->p_desalinhamento_obs?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_desalinhamento_obs" value="<?=$rdss[0]->p_desalinhamento_obs?>"> 
                                     <span class="parametro_un"> mm</span> 
                                 </div>
                             </div>
@@ -1418,7 +1360,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_fresta_max_perm" value="<?=$rdos[0]->p_fresta_max_perm?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_fresta_max_perm" value="<?=$rdss[0]->p_fresta_max_perm?>"> 
                                     <span class="parametro_un"> mm</span> 
                                 </div>
                             </div>
@@ -1432,7 +1374,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_fresta_obs" value="<?=$rdos[0]->p_fresta_obs?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_fresta_obs" value="<?=$rdss[0]->p_fresta_obs?>"> 
                                     <span class="parametro_un"> mm</span> 
                                 </div>
                             </div>
@@ -1446,7 +1388,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_pressao_arraste" value="<?=$rdos[0]->p_pressao_arraste?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_pressao_arraste" value="<?=$rdss[0]->p_pressao_arraste?>"> 
                                     <span class="parametro_un"> Kgf/cm2</span> 
                                 </div>
                             </div>
@@ -1460,7 +1402,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_pressao_solda" value="<?=$rdos[0]->p_pressao_solda?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_pressao_solda" value="<?=$rdss[0]->p_pressao_solda?>"> 
                                     <span class="parametro_un"> Kgf/cm2</span> 
                                 </div>
                             </div>
@@ -1474,7 +1416,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_pressao_pre_aquecimento_juncao" value="<?=$rdos[0]->p_pressao_pre_aquecimento_juncao?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_pressao_pre_aquecimento_juncao" value="<?=$rdss[0]->p_pressao_pre_aquecimento_juncao?>"> 
                                     <span class="parametro_un"> Kgf/cm2</span> 
                                 </div>
                             </div>
@@ -1488,21 +1430,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_tempoo_aquecimento" value="<?=$rdos[0]->p_tempoo_aquecimento?>"> 
-                                    <span class="parametro_un"> Segundos</span> 
-                                </div>
-                            </div>
-                            <hr style="width: 95%;margin: 0 auto !important;margin-bottom: 10px !important;">
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 _40p">
-                                <div class="form-group">
-                                    <label class="parametro">Tempo de aquecimento:</label>           
-                                </div>
-                            </div>
-                            <div class="col-lg-6 _60p">
-                                <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_tempoo_aquecimento" value="<?=$rdos[0]->p_tempoo_aquecimento?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_tempoo_aquecimento" value="<?=$rdss[0]->p_tempoo_aquecimento?>"> 
                                     <span class="parametro_un"> Segundos</span> 
                                 </div>
                             </div>
@@ -1516,7 +1444,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_pressao_aquecimento_simples_contato" value="<?=$rdos[0]->p_pressao_aquecimento_simples_contato?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_pressao_aquecimento_simples_contato" value="<?=$rdss[0]->p_pressao_aquecimento_simples_contato?>"> 
                                     <span class="parametro_un"> Kgf/cm2</span> 
                                 </div>
                             </div>
@@ -1530,7 +1458,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_tempo_retirada_placa_aquecimento" value="<?=$rdos[0]->p_tempo_retirada_placa_aquecimento?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_tempo_retirada_placa_aquecimento" value="<?=$rdss[0]->p_tempo_retirada_placa_aquecimento?>"> 
                                     <span class="parametro_un"> Segundos</span> 
                                 </div>
                             </div>
@@ -1544,7 +1472,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_tempo_resfriamento" value="<?=$rdos[0]->p_tempo_resfriamento?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_tempo_resfriamento" value="<?=$rdss[0]->p_tempo_resfriamento?>"> 
                                     <span class="parametro_un"> Seg ou min</span> 
                                 </div>
                             </div>
@@ -1558,7 +1486,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_largura_inical_cordao" value="<?=$rdos[0]->p_largura_inical_cordao?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_largura_inical_cordao" value="<?=$rdss[0]->p_largura_inical_cordao?>"> 
                                     <span class="parametro_un"> mm</span> 
                                 </div>
                             </div>
@@ -1572,7 +1500,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_largura_final_cordao" value="<?=$rdos[0]->p_largura_final_cordao?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_largura_final_cordao" value="<?=$rdss[0]->p_largura_final_cordao?>"> 
                                     <span class="parametro_un"> mm</span> 
                                 </div>
                             </div>
@@ -1586,7 +1514,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_termino_solda" value="<?=$rdos[0]->p_termino_solda?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_termino_solda" value="<?=$rdss[0]->p_termino_solda?>"> 
                                     <span class="parametro_un"> Horas e Min</span> 
                                 </div>
                             </div>
@@ -1600,7 +1528,7 @@
                             </div>
                             <div class="col-lg-6 _60p">
                                 <div class="form-group" style="width: 70%;">
-                                    <input type="text" class="form-control par_inp" name="p_previsao_horario_liberacao_solda" value="<?=$rdos[0]->p_previsao_horario_liberacao_solda?>"> 
+                                    <input type="text" class="form-control par_inp" name="p_previsao_horario_liberacao_solda" value="<?=$rdss[0]->p_previsao_horario_liberacao_solda?>"> 
                                     <span class="parametro_un"> Horas e Min</span> 
                                 </div>
                             </div>
@@ -1615,9 +1543,9 @@
                                 <div class="form-group">
                                     <label for="resultado_da_solda" style="font-weight: 800;">Resultado da Solda:</label><br>
                                     <select class="form-control" name="resultado_da_solda" >
-                                        <option <?= $detalhes_bra[0]->resultado_da_solda == "0" ? 'selected' : '' ?> value="AC">Selecione o estado</option>
-                                        <option <?= $detalhes_bra[0]->resultado_da_solda == "1" ? 'selected' : '' ?> value="AC">Aprovado</option>
-                                        <option <?= $detalhes_bra[0]->resultado_da_solda == "2" ? 'selected' : '' ?> value="AL">Reprovado</option>
+                                        <option <?= $rdss[0]->resultado_da_solda == "0" ? 'selected' : '' ?> value="0">Selecione o estado</option>
+                                        <option <?= $rdss[0]->resultado_da_solda == "1" ? 'selected' : '' ?> value="1">Aprovado</option>
+                                        <option <?= $rdss[0]->resultado_da_solda == "2" ? 'selected' : '' ?> value="2">Reprovado</option>
                                     </select> 
                                 </div>
                             </div>
@@ -1631,13 +1559,13 @@
                             <div class="col-lg-8">
                                 <div class="form-group">
                                     <label for="fabricante">Fabricante</label>
-                                    <input type="text" class="form-control" name="fabricante" placeholder="fabricante" value="<?=$rdos[0]->fabricante?>">
+                                    <input type="text" class="form-control" name="fabricante" placeholder="fabricante" value="<?=$rdss[0]->fabricante?>">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="modelo_e_voltagem">Modelo e voltagem</label>
-                                    <input type="text" class="form-control" id="modelo_e_voltagem" name="modelo_e_voltagem" placeholder="Modelo e voltagem" value="<?=$rdos[0]->modelo_e_voltagem?>">
+                                    <input type="text" class="form-control" id="modelo_e_voltagem" name="modelo_e_voltagem" placeholder="Modelo e voltagem" value="<?=$rdss[0]->modelo_e_voltagem?>">
                                 </div>
                             </div>
                             
@@ -1649,79 +1577,41 @@
                     <div class="row_border">
 
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="data">Data</label>
-                                    <input type="date" class="form-control" id="data" name="data" value="<?=date("Y-m-d", $rdos[0]->data)?>" readonly>            
+                                    <input type="date" class="form-control" id="data" name="data" value="<?=date("Y-m-d", $rdss[0]->data)?>">            
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-5">
                                 <div class="form-group">
-                                    <label for="soldador">Soldador: </label>
-                                    <input type="text" class="form-control" id="soldador" name="soldador" value="<?=$rdos[0]->soldador?>">            
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="inspetor">Inspetor: </label>
-                                    <input type="text" class="form-control" id="inspetor" name="inspetor" value="<?=$rdos[0]->inspetor?>">            
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    
-
-                    <!-- <div class="row_border">
-                        <h4 style="font-weight: 800;"><b>Equipe</b></h4><br><br>
-                        <div class="row">
-                        <?php foreach($funcionarios as $row){  ?>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="funcionarios"><?=$row->nome?> <?=$row->sobrenome?></label>
-                                    <a class="assinatura_click" data="<?=$row->id?>">Assinar</a>
-                                    
-                                    <?php 
-                                        $data = $this->db->get_where('assinatura_equipe_rdo', array('funcionario_id' => $row->id, 'rdo_id' => $rdo_id));
-                                        if($data->num_rows() > 0){$display='color: green; display:block';}else{$display='color: green; display:none';}
-                                    ?>
-                                    <i class="mdi mdi-check-all" id="<?=$row->id?>_check" style="<?=$display?>"></i>
-                                </div>
-                            </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-
-                    <div class="row_border">
-                        <h4 style="font-weight: 800;"><b>Assinaturas do líder da equipe</b></h4><br><br>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="assintura_lider">Assinatura do líder da equipe</label>
+                                    <label for="assintura_lider">Assinatura do Soldador</label>
                                     <a class="assinatura_click" data="equipe">Assinar</a>
                                     <?php 
-                                        $data = $this->db->get_where('assinatura_equipe_rdo', array('funcionario_id' => 99, 'rdo_id' => $rdo_id));
+                                        $data = $this->db->get_where('assinatura_equipe_rds', array('funcionario_id' => 99, 'rds_id' => $rds_id));
                                         if($data->num_rows() > 0){$display='color: green; display:block';}else{$display='color: green; display:none';}
                                     ?>
                                     <i class="mdi mdi-check-all" id="equipe_check" style="<?=$display?>"></i>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <div class="form-group">
                                     <label for="assintura_cliente">Assinatura do cliente</label>
                                     <a class="assinatura_click" data="cliente">Assinar</a>
                                     <?php 
-                                        $data = $this->db->get_where('assinatura_equipe_rdo', array('funcionario_id' => 88, 'rdo_id' => $rdo_id));
+                                        $data = $this->db->get_where('assinatura_equipe_rds', array('funcionario_id' => 88, 'rds_id' => $rds_id));
                                         if($data->num_rows() > 0){$display='color: green; display:block';}else{$display='color: green; display:none';}
                                     ?>
                                     <i class="mdi mdi-check-all" id="cliente_check" style="<?=$display?>"></i>
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                        
+                    </div>
 
                     <button type="submit" class="btn btn-gradient-primary me-2 mt-2">Salvar</button>
+                    
+                    
                 </form>
                 
                 <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
@@ -1735,7 +1625,7 @@
                             <div class="modal-body">
                                 <div id="assinatura" style="width:350px;height:200px" class="ui-inputfield ui-widget ui-state-default ui-corner-all kbw-signature">
                                     <input id="assinatura_value" name="assinatura_value" type="hidden" autocomplete="off" aria-hidden="true" value="">
-                                    <canvas width="350" height="184" style="margin-top: -200px">Your browser doesn't support signing</canvas>
+                                    <canvas width="350" height="184" style="margin-top: -200px">Seu navegador nao suporta assinaturas na tela</canvas>
                                 </div>
                                 <div>
                                     <input type="hidden" id="id_cliente" name="id_cliente" value="">
@@ -1747,7 +1637,7 @@
                     </div>
                 </div>
 
-                <a href="<?=base_url()?>admin/rdo/lista_rdo/<?=$detalhes_bra[0]->id_obra?>" class="btn_voltar"><i class="mdi mdi-keyboard-return"></i> Voltar</a>
+                <a href="<?=base_url()?>admin/rds/lista_rds/<?=$detalhes_bra[0]->id_obra?>" class="btn_voltar"><i class="mdi mdi-keyboard-return"></i> Voltar</a>
             </div>
             
           <?php include('footer.php'); ?>
@@ -1801,12 +1691,12 @@
             var url                 = "<?=base_url()?>";
             var id_cliente          = $('#id_cliente').val();
             var assinatura_value    = $('#assinatura_value').val();
-            var rdo_id              = <?=$rdo_id?>;
+            var rds_id              = <?=$rds_id?>;
 
             jQuery.ajax({
                 type: "POST",
-                url: url+"admin/rdo/salvar_rdo_assinatura",
-                data: "id_cliente=" + id_cliente + "&assinatura_value=" + assinatura_value + "&rdo_id=" + rdo_id,
+                url: url+"admin/rds/salvar_rds_assinatura",
+                data: "id_cliente=" + id_cliente + "&assinatura_value=" + assinatura_value + "&rds_id=" + rds_id,
                 success: function(resp) {
                     var jsonData = JSON.parse(resp);
                     console.log(jsonData);
