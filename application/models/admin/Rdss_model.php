@@ -11,7 +11,7 @@ class Rdss_model extends CI_Model
 		return;
 	}
 
-    public function lista_data_rdo(){
+    public function lista_data_rds(){
 		$data = $this->db->get('rdss')->result();
 		return $data;
 	}
@@ -42,7 +42,7 @@ class Rdss_model extends CI_Model
 		return $data;
 	}
 
-    public function edit_rdo($post, $id_rdo){
+    public function edit_rds($post, $id_rds){
         $data = array(
 			'nome'          => $post['nome'],
 			'status'        => ($post['status'] ? 1 : 0),
@@ -55,7 +55,7 @@ class Rdss_model extends CI_Model
 			'cep'           => $post['CEP'],
         );
         // echo '<pre>';print_r($data);exit;
-		$this->db->where('id', $id_rdo);
+		$this->db->where('id', $id_rds);
 		$this->db->update('rdss', $data);
 		if ($this->db->affected_rows() == 1) {
             return 1;
@@ -64,18 +64,17 @@ class Rdss_model extends CI_Model
         }
 	}
 
-    public function add_rdo_gravar($post){
+    public function add_rds_gravar($post){
 		
 		$this->db->insert('rdss', $post);
-		$id_rdo = $this->db->insert_id();
+		$id_rds = $this->db->insert_id();
 
-        return $id_rdo;
+        return $id_rds;
 		
 	}
-
     
-    public function lista_rdss_by_obra_id_e_rdo($obra_id, $rdo_id){
-        $data = $this->db->get_where('rdss', array('id_obra' => $obra_id, 'id' => $rdo_id))->result();
+    public function lista_rdss_by_obra_id_e_rds($obra_id, $rds_id){
+        $data = $this->db->get_where('rdss', array('id_obra' => $obra_id, 'id' => $rds_id))->result();
 		return $data;
     }
     public function lista_rdss_by_obra_id($obra_id, $funcionario_id){
@@ -89,123 +88,44 @@ class Rdss_model extends CI_Model
 		return $data;
 	}
 
-    public function get_rdo_by_id($rdo_id){
-        $data = $this->db->get_where('rdss', array('id' => $rdo_id))->result();
+    public function get_rds_by_id($rds_id){
+        $data = $this->db->get_where('rdss', array('id' => $rds_id))->result();
 		return $data;
     }
-
-    public function assinaturas_rdo_by_rdo_id($obra_id){
-
-
-        $this->db->select('assinatura_equipe_rdo.*, funcionarios.nome, funcionarios.sobrenome');
-		$this->db->from('assinatura_equipe_rdo');
-		$this->db->join('funcionarios', 'funcionarios.id = assinatura_equipe_rdo.funcionario_id', 'left');
-		$this->db->where('assinatura_equipe_rdo.rdo_id', $obra_id);
+    
+    public function assinaturas_rds_by_rds_id($obra_id){
+        $this->db->select('assinatura_equipe_rds.*, funcionarios.nome, funcionarios.sobrenome');
+		$this->db->from('assinatura_equipe_rds');
+		$this->db->join('funcionarios', 'funcionarios.id = assinatura_equipe_rds.funcionario_id', 'left');
+		$this->db->where('assinatura_equipe_rds.rds_id', $obra_id);
 		$data = $this->db->get()->result();
-        // $data = $this->db->get_where('assinatura_equipe_rdo', array('rdo_id' => $rdo_id))->result();
+        // $data = $this->db->get_where('assinatura_equipe_rds', array('rds_id' => $rds_id))->result();
 		return $data;
     }
 
-    public function produtos_do_rdo($rdo_id){
+    public function produtos_do_rds($rds_id){
 
 
-        $this->db->select('produtos_rdo.*, produtos.nome, produtos.unidade');
-		$this->db->from('produtos_rdo');
-		$this->db->join('produtos', 'produtos.id = produtos_rdo.produto_id');
-		$this->db->where('produtos_rdo.rdo_id', $rdo_id);
+        $this->db->select('produtos_rds.*, produtos.nome, produtos.unidade');
+		$this->db->from('produtos_rds');
+		$this->db->join('produtos', 'produtos.id = produtos_rds.produto_id');
+		$this->db->where('produtos_rds.rds_id', $rds_id);
 		$data = $this->db->get()->result();
-        // $data = $this->db->get_where('assinatura_equipe_rdo', array('rdo_id' => $rdo_id))->result();
+        
 		return $data;
     }
 
-	public function insere_item_rdo_gravar($id_obra, $id_rdo, $post){
+	public function insere_item_rds_gravar($id_obra, $id_rds, $post){
 
-        foreach($post as $key => $row){
+        $post['data'] = strtotime($post['data']);
+        unset( $post['id_obra']);
+        unset( $post['id_rds']);
 
-            if(str_contains($key, 'produtos')){
-                $data_produto = explode("_",$key);
-
-                $this->db->where('produto_id',$data_produto[1]);
-                $this->db->where('rdo_id',$id_rdo);
-                $q = $this->db->get('produtos_rdo');
-
-                if ( $q->num_rows() > 0 ) 
-                {   
-                    $data = array('qtd'=> $row);
-                    $this->db->where('rdo_id',$id_rdo);
-                    $this->db->where('produto_id',$data_produto[1]);
-                    $this->db->update('produtos_rdo',$data);
-                    
-                } else {
-                    $data = array('rdo_id'=> $id_rdo,'produto_id'=> $data_produto[1],'qtd'=> $row);
-                    $this->db->insert('produtos_rdo',$data);
-                }
-
-            }
-        }
-
-        if($post['veiculos']){
-            $this->db->where('rdo_id', $id_rdo);
-            $this->db->delete('veiculos_rdo');
-            
-            foreach($post['veiculos'] as $veiculo){
-                $data = array(
-                    'frota_id' => $veiculo,
-                    'rdo_id' => $id_rdo,
-                );
-                $this->db->insert('veiculos_rdo', $data);
-            }
-        }
-
-        if($post['motoristas']){
-            $this->db->where('rdo_id', $id_rdo);
-            $this->db->delete('motoristas_rdo');
-
-            foreach($post['motoristas'] as $funcionario){
-
-                $data = array(
-                    'funcionario_id' => $funcionario,
-                    'rdo_id' => $id_rdo,
-                );
-                $this->db->insert('motoristas_rdo', $data);
-            }
-        }
-		
-		if($post['funcionario_obra']){
-            $this->db->where('rdo_id', $id_rdo);
-            $this->db->delete('funcionarios_rdo');
-
-            foreach($post['funcionario_obra'] as $funcionario){
-
-                $data = array(
-                    'funcionario_id' => $funcionario,
-                    'rdo_id' => $id_rdo,
-                );
-                $this->db->insert('funcionarios_rdo', $data);
-            }
-        }
-
-		$data = array(
-			'obs'                   => $post['obs'],
-			'horario_inicio_obra'   => $post['hora_inicio_obra'],
-			'horario_inicio_exp'    => $post['hora_inicio'],
-			'horario_termino_exp'   => $post['hora_termino_obra'],
-			'cliente'               => $post['cliente'],
-			'endereco'              => $post['endereco'],
-			'diametro_t'            => $post['diametro_t'],
-			'tipo'                  => $post['tipo'],
-			'numero_soldas'         => $post['soldas'],
-			'distancia_t'           => $post['distancia_t'],
-			'data_alterada'         => strtotime($post['data_alterada']),
-			'numero'                => $post['numero'],
-			'bairro'                => $post['bairro'],
-			'cidade'                => $post['cidade'],
-        );
-
-		$this->db->where('id', $id_rdo);
+		$this->db->where('id', $id_rds);
 		$this->db->where('id_obra', $id_obra);
-		$this->db->update('rdss', $data);
+		$this->db->update('rdss', $post);
 
+        // p($this->db->last_query());
 	}
 
 

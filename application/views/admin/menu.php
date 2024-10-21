@@ -100,6 +100,12 @@
           <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?=base_url(); ?>admin/rds">
+          <span class="menu-title">RDS</span>
+          <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>
+        </a>
+      </li>
       <?php } ?>
     <?php if($_SESSION['backend']['permissao']==99){ ?>
       

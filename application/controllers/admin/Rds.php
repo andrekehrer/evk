@@ -110,34 +110,16 @@ class Rds extends CI_Controller {
         $data['title'] = 'rdss';
         $data['detalhes_bra']   = $this->obras_model->get_obra_id_obra($obra_id);
         $data['funcionarios']   = $this->obras_model->get_funcionarios_nome_da_obra($obra_id);
-        // $data['frota']          = $this->frotas_model->lista_frotas();
-        // $data['produtos']       = $this->produtos_model->lista_produtos();
-        // $data['rds_id']         = $rds_id;
-        // $data['rdss']           = $this->rdss_model->lista_rdss_by_obra_id_e_rds($obra_id, $rds_id);
-        // $frota_rds              = $this->frotas_model->lista_frotas_by_rds_id($rds_id);
-        $funcionarios_rds       = $this->frotas_model->lista_funcionarios_rds($rds_id);
-
-
-        // $frota_array = array();
-        // foreach($frota_rds as $frota){
-        //     array_push($frota_array,$frota->frota_id);
-        // }
-
-        // $motoristas_array = array();
-        // foreach($motorista_rds as $motoca){
-        //     array_push($motoristas_array,$motoca->funcionario_id);
-        // }
+        $data['rdss']           = $this->rdss_model->lista_rdss_by_obra_id_e_rds($obra_id, $rds_id);
 
         $func_array = array();
-        foreach($funcionarios_rds as $func){
-            array_push($func_array,$func->funcionario_id);
-        }
+        // foreach($funcionarios_rds as $func){
+        //     array_push($func_array,$func->funcionario_id);
+        // }
 
-        // $data['motoristas_array']   = $motoristas_array;
-        // $data['frota_array']        = $frota_array;
         $data['func_array']        = $func_array;
+        $data['rds_id'] = $rds_id;
         // p($data);
-        
         $this->load->view('admin/criar_rds', $data);
 	}
 
@@ -324,64 +306,13 @@ class Rds extends CI_Controller {
         
         $user_id = $_SESSION['backend']['id'];
         $data['title'] = 'RDs';
-        $data['title'] = 'RDsS - PDF';
-        $data['detalhes_bra']       = $this->obras_model->get_obra_id_obra($obra_id);
 
-        $data['funcionarios']       = $this->obras_model->get_funcionarios_nome_da_obra($obra_id);
         $data['assinaturas_rds']    = $this->rdss_model->assinaturas_rds_by_rds_id($rds_id);
-        $data['produtos']           = $this->rdss_model->produtos_do_rds($rds_id);
-        // $data['assinatura']         = $data['assinaturas_rds'][0]->assinatura;
-        
-        $data['rds_id']             = $rds_id;
+        $data['detalhes_bra']       = $this->obras_model->get_obra_id_obra($obra_id);
+        $data['funcionarios']       = $this->obras_model->get_funcionarios_nome_da_obra($obra_id);
         $data['rdss']               = $this->rdss_model->lista_rdss_by_obra_id_e_rds($obra_id, $rds_id);
-        $frota_rds                  = $this->frotas_model->lista_frotas_com_nome_by_rds_id($rds_id);
-        $funcionarios_rds           = $this->frotas_model->lista_funcionarios_rds($rds_id);
-        $motorista_rds              = $this->frotas_model->lista_motoristas_by_rds_id($rds_id);
-
-        $tipo = '';
-        switch ($data['detalhes_bra'][0]->tipo) {
-            case 1:
-                $tipo = 'Esgoto';
-            break;
-            case 2:
-                $tipo = 'Água'; 
-            break;
-            case 3:
-                $tipo = 'Gás';
-            break;
-            case 4:
-                $tipo = 'Fibra óptica';
-            break;
-            case 5:
-                $tipo = 'Drenagem';
-            break;
-            case 6:
-                $tipo = 'Eletricidade';
-            break;
-            case 7:
-                $tipo = 'Travessias especias';
-            break;
-            default:
-                $tipo = '';
-        }
-
+        $data['rds_id']             = $rds_id;
         
-        $motoristas_array = array();
-        foreach($motorista_rds as $motoca){
-            array_push($motoristas_array,$motoca->funcionario_id);
-        }
-
-        $func_array = array();
-        foreach($funcionarios_rds as $func){
-            array_push($func_array,$func->funcionario_id);
-        }
-
-
-        $data['tipo'] = $tipo;
-        $data['motoristas_array']   = $motoristas_array;
-        $data['func_array']         = $func_array;
-        $data['frota_array']        = $frota_rds;
-        // p($data);
         $this->load->view('admin/export_rds', $data);
 
     }
