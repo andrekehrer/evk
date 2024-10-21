@@ -21,14 +21,14 @@ class Rds extends CI_Controller {
         $data['title'] = 'RDS - Relatório de Solda';
         $id = $_SESSION['backend']['id'];
 
-        if($_SESSION['backend']['permissao']==99){
-            $data['rdss'] = $this->rdss_model->lista_rdss_gestor();
-            $this->load->view('admin/lista_rds_gestor', $data);
+        // if($_SESSION['backend']['permissao']==99){
+        //     $data['rdss'] = $this->rdss_model->lista_rdss_gestor();
+        //     $this->load->view('admin/lista_rds_gestor', $data);
 
-        }else{
+        // }else{
             $data['obras'] = $this->obras_model->get_obra_id_usuario($id);
             $this->load->view('admin/rdss', $data);
-        }
+        // }
         
 	}
 
