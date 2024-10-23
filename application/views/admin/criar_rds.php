@@ -1129,7 +1129,17 @@
                             </div>
                         </div>
                     </div> -->
+                    <div class="row_border">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="numero_do_furo">Número do Furo:</label>
+                                    <input type="text" class="form-control" id="numero_do_furo" name="numero_do_furo" value="<?=$rdss[0]->numero_do_furo?>">            
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
                     <div class="row_border">
                         <div class="row">
                             <p style="text-align: center;"><b>Tubo 1</b></p>

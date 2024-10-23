@@ -71,7 +71,10 @@
                         RELATÓRIO DIÁRIO DE SOLDA
                     </span>
                 </div>
-                <div class="page-header" style="margin: 8px 0px 0px 0px !important;">
+                <div style="height:10px">
+                    <span style="float: right;margin-right: 2px;color: #7979b5;">Furo Número: <?=$rdss[0]->numero_do_furo?></span>
+                </div>
+                <div class="page-header row_border" style="margin: 8px 0px 0px 0px !important;">
                     <h3 class="page-title">
                         <b>Local da Obra: </b> <?=$detalhes_bra[0]->obra_nome?> - <?=$detalhes_bra[0]->cidade?>/<?=$detalhes_bra[0]->estado?>
                     </h3>
