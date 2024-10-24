@@ -46,6 +46,7 @@ class Rdo extends CI_Controller {
     }
 
     public function checkin_funcionario($obra_id, $id_usuario){
+        date_default_timezone_set('America/Sao_Paulo');
         $today_dia  = date("d-m-Y");
 
         $rdo = $this->rdos_model->lista_rdos_by_obra_id_data($obra_id, $today_dia);
@@ -63,7 +64,8 @@ class Rdo extends CI_Controller {
     }
 
     public function checkout_funcionario($rdo_id, $funcionario_id, $placa){
-
+        date_default_timezone_set('America/Sao_Paulo');
+        
         $data = array('checkout'=> strtotime(date("Y-m-d h:i:sa")));
         $this->db->where('rdo_id',$rdo_id);
         $this->db->where('funcionario_id',$funcionario_id);
@@ -79,7 +81,7 @@ class Rdo extends CI_Controller {
     }
 
     public function checkin_funcionario_motorista(){
-        
+        date_default_timezone_set('America/Sao_Paulo');
         $today_dia  = date("d-m-Y");
         
         $id_usuario = $_SESSION['backend']['id'];
