@@ -123,6 +123,7 @@ class Rdos_model extends CI_Model
 
     public function inserir_funcionario_no_rdo($rdo_id, $funcionario, $lat, $longe){
         date_default_timezone_set('America/Sao_Paulo');
+        
         if($_SESSION['backend']['permissao'] == 2){
             $data = array('funcionario_id'=> $funcionario);
             $this->db->where('rdo_id',$rdo_id);

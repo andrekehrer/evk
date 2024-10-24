@@ -70,8 +70,8 @@
                                     <div class="col-lg-12"> 
                                         <div class="form-group">
                                             <label for="admissao">Obra</label>
-                                            <select class="form-control" id="obra" name="obra">
-                                            <option  value="0">Selecione a Obra</option>
+                                            <select class="form-control" id="obra" name="obra" required>
+                                            <option  value="">Selecione a Obra</option>
                                                 <?php foreach($obras as $row){  
                                                     $today_dia  = date("d-m-Y");
                                                     $this->db->select('*');
@@ -92,8 +92,9 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="registro">Veículo</label>
-                                            <select class="form-control" id="veiculo" name="veiculo">
-                                                <option  value="0">Selecione e veículo</option>
+                                            <select class="form-control" id="veiculo" name="veiculo" required>
+                                                <option  value="">Selecione e veículo</option>
+                                                <option  value="0">Nenhum</option>
                                                 <?php foreach($veiculos as $row){ ?>
                                                     <option <?= (in_array($row->id, $viculos_reservados)) ? 'disabled' : '' ?> value="<?=$row->id?>"><?=$row->nome?></option>
                                                 <?php }?>
@@ -119,7 +120,7 @@
                     <?php 
                     
                         foreach($obras as $row){ 
-                            
+                            date_default_timezone_set('America/Sao_Paulo');
                             $today_dia  = date("d-m-Y");
                             $this->db->select('*');
                             $this->db->from('rdos');
@@ -165,19 +166,21 @@
                                         <a class="checkout_btn" href="<?=base_url()?>admin/rdo/checkout_funcionario/<?=$data[0]->id?>/<?=$id_usuario?>/<?=$placa?>">Checkout</a>
                                     <?php }?>
                                 </div>
-                            <?php }
+                            <?php }else{
+                                echo 'Nenhum checkin<br><br>';
+                            }
                         }
                     ?>
                     <?php }?>
 
                     <hr>  
-
+                <?php if($_SESSION['backend']['permissao'] != 3) { ?>
                     <div class="page-header">
                         <h3 class="page-title">
                             Suas Obras
                         </h3>
                     </div>
-
+                <?php }?>
                     <?php if(count($obras)<=0 ){ ?>
                         <p class="card-description"> Nenhuma Obra</code><br></p>
                     <?php }elseif($_SESSION['backend']['permissao'] != 3) { ?>

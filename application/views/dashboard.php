@@ -42,7 +42,9 @@
     </style>
 </head>
 <body>
-<?php  //p($obras);?>
+<?php 
+    date_default_timezone_set('America/Sao_Paulo');
+?>
 <section class="py-3 py-md-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -89,15 +91,16 @@
                                                 <?php foreach($obra['funcionario'] as $key => $func){ 
 
                                                         echo $func['nome'];
-                                                        echo ' - '.$func['carro'].' [ '.$func['placa']. ' ]';
+                                                        
+                                                        echo '  '.$func['carro'].' '.(isset($func['placa'])? '['.$func['placa'].']' : '');
                                                         
                                                         if($func['checkin']){
                                                             echo '<br>';
-                                                            echo date('d/m/Y h:m',$func['checkin']);
+                                                            echo date('d/m/Y h:i',$func['checkin']);
                                                         }
                                                         if($func['checkout']){
                                                             echo '<br>';
-                                                            echo date('d/m/Y h:m',$func['checkout']);
+                                                            echo date('d/m/Y h:i',$func['checkout']);
                                                         }
                                                         echo '<br>';
                                                 }?>  
