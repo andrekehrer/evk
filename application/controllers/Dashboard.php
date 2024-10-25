@@ -28,12 +28,8 @@ class Dashboard extends CI_Controller {
 			$str = file_get_contents('https://api.openweathermap.org/data/2.5/weather?lat='.$obra->lat.'&lon='.$obra->long.'&appid=feb5462396f97b8b52681a625c73a22d&lang=pt_br&units=metric');
 			$res = json_decode($str);
 
-			$rdo = $this->rdos_model->lista_rdos_by_obra_id_data($obra->id, $today);
-			// echo '<pre>';
-			// print_r(date('d/m/Y',$rdo[0]->data));
-			// echo '<br>';
-			// print_r(date('d/m/Y',$today));
-			
+			$rdo = $this->rdos_model->lista_rdos_by_obra_id_data($obra->id);
+
 
 			$lista[$i]['obra'] 			= $obra->nome;
 			$lista[$i]['data_criacao']  = date('d/m/Y',$rdo[0]->data);
@@ -60,9 +56,10 @@ class Dashboard extends CI_Controller {
 
 					$frota 	= $this->frotas_model->carro_por_usuario_rdo($rdo[0]->id, $fun->funcionario_id);
 					
-					$lista[$i]['funcionario'][$ii]['nome'] = $fun->nome;
-					$lista[$i]['funcionario'][$ii]['checkin'] = $fun->checkin;
-					$lista[$i]['funcionario'][$ii]['checkout'] = $fun->checkout;
+					$lista[$i]['funcionario'][$ii]['nome'] 			= $fun->nome;
+					$lista[$i]['funcionario'][$ii]['checkin'] 		= $fun->checkin;
+					$lista[$i]['funcionario'][$ii]['checkout'] 		= $fun->checkout;
+					$lista[$i]['funcionario'][$ii]['fora_do_raio'] 	= $fun->fora_do_raio;
 					// echo '<pre><br>';
 					// print_r($fun);
 					// echo '</pre></br>';
@@ -79,7 +76,6 @@ class Dashboard extends CI_Controller {
 		
 		$data['obras'] = $lista;
 		// p($data);
-
         $this->load->view('dashboard', $data);
     }
 

@@ -129,6 +129,7 @@
                             $this->db->order_by('rdos.id', 'DESC');
                             $this->db->limit(1);
                             $data = $this->db->get()->result();
+                            
                             $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
                             
                             $this->db->select('frotas.nome, frotas.placa');
