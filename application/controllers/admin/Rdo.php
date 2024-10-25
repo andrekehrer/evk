@@ -93,6 +93,27 @@ class Rdo extends CI_Controller {
         return $dist;
     }
 
+    function distancia_ajax() {
+
+        $lat_longe = $this->rdos_model->get_lat_longe_obra_by_id($_POST['obra_id']);
+
+        $lat1 = deg2rad($_POST['lat']);
+        $lat2 = deg2rad($lat_longe[0]->lat);
+        $lon1 = deg2rad($_POST['longe']);
+        $lon2 = deg2rad($lat_longe[0]->long);
+        
+        $dist = (6371 * acos( cos( $lat1 ) * cos( $lat2 ) * cos( $lon2 - $lon1 ) + sin( $lat1 ) * sin($lat2) ) );
+        $dist = number_format($dist, 2, '.', '');
+
+        if($dist <=  0.5){
+            $fora_localizacao = 0;
+        }else{
+            $fora_localizacao = 1;
+        }
+        
+        echo json_encode($fora_localizacao);
+    }
+
     public function postCURL($_url, $_param){
 
         $postData = '';

@@ -22,6 +22,7 @@
         .page-header {margin-top: 10px !important}
         p {line-height: 1 !important}
         .card .card-body {padding: 1.5rem 0.5rem !important;}
+        #frase{color:red; margin-top: 10px; font-size: 12px;display:none}
     </style>
     <div class="container-scroller">
         <?php include('nav.php'); ?>
@@ -106,6 +107,7 @@
                                 </div>
                             </div>
                         <button type="submit" id="subButton" class="btn btn-gradient-primary me-2 mt-2" disabled>Fazer o Checkin</button>
+                        <p id="frase">*Você está do raio máximo permitido para fazer o checkin</p>
                     </form>
 
 
@@ -242,9 +244,34 @@
             }
 
             function showPosition(position) {
-                    $('#subButton').prop('disabled', false);
+                    // $('#subButton').prop('disabled', false);
                     ObterPosicao(position.coords.latitude, position.coords.longitude);
             }
+
+            $("#obra").change(function(){
+
+                var url                 = "<?=base_url()?>";
+                var obra_id             = $("#obra").val();
+                var lat                 = $("input[name=lat]").val();
+                var longe               = $("input[name=longe]").val();
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: url+"admin/rdo/distancia_ajax",
+                    data: "obra_id=" + obra_id + "&lat=" + lat + "&longe=" + longe,
+                    success: function(resp) {
+                        var jsonData = JSON.parse(resp);
+                        if(jsonData == 1){
+                            // window.location.reload(true);
+                            $('#frase').css('display', 'block');
+                        }else{
+                            $('#frase').css('display', 'none');
+                            $('#subButton').prop('disabled', false);
+                        }
+                    }
+                });
+
+            });
 
             ExibirLocalizacao();
             
