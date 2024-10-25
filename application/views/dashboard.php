@@ -152,12 +152,29 @@
 </section>
 
 </body>
-<script
+<!-- <script
   src="https://code.jquery.com/jquery-3.7.1.slim.js"
   integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
-  crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script> -->
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
+    setInterval(function(){
+        var url   = "<?=base_url()?>";
+
+        jQuery.ajax({
+            type: "POST",
+            url: url+"dashboard/get_mudar",
+            data: "1=1",
+            success: function(resp) {
+                var jsonData = JSON.parse(resp);
+                if(jsonData == 1){
+                    window.location.reload(true);
+                }
+            }
+        });
+    }, 7000);
+
     $(document).ready(function(){
 
         function ObterPosicao(lat, long){
