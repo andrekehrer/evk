@@ -21,9 +21,9 @@ class Rdos_model extends CI_Model
         $this->db->select('*');
 		$this->db->from('rdos');
 		$this->db->where('id_obra', $obra_id);
-        // if($data_dia == true){
-        //     $this->db->where('dia_criada', $data_dia);
-        // }
+        if($data_dia == true){
+            $this->db->where('dia_criada', $data_dia);
+        }
 		$this->db->order_by('rdos.id', 'DESC');
         $this->db->limit(1);
 
@@ -82,6 +82,13 @@ class Rdos_model extends CI_Model
         $data = $this->db->get_where('rdos', array('id_obra' => $obra_id, 'id' => $rdo_id))->result();
 		return $data;
     }
+
+    public function get_lat_longe_obra_by_id($obra_id){
+        $data = $this->db->get_where('obras', array('id' => $obra_id))->result();
+		return $data;
+    }
+    
+
     public function lista_rdos_by_obra_id($obra_id, $funcionario_id){
         $data = $this->db->order_by('data', 'DESC')->get_where('rdos', array('id_obra' => $obra_id, 'funcionario_id' => $funcionario_id))->result();
 		return $data;
@@ -121,7 +128,7 @@ class Rdos_model extends CI_Model
 		return $data;
     }
 
-    public function inserir_funcionario_no_rdo($rdo_id, $funcionario, $lat, $longe){
+    public function inserir_funcionario_no_rdo($rdo_id, $funcionario, $lat, $longe, $fora_do_raio){
         date_default_timezone_set('America/Sao_Paulo');
         
         if($_SESSION['backend']['permissao'] == 2){
@@ -135,6 +142,7 @@ class Rdos_model extends CI_Model
             'rdo_id' => $rdo_id,
             'latitude' => $lat,
             'longetude' => $longe,
+            'fora_do_raio' => $fora_do_raio,
             'checkin' => strtotime(date("Y-m-d h:i:sa")),
         );
         $this->db->insert('funcionarios_rdo', $data);

@@ -60,8 +60,6 @@
                                 array_push($viculos_reservados, $v->frota_id);
                             }
                         }
-                    
-
                     ?>  
                     <?php //if($_SESSION['backend']['permissao'] == 3){ ?>
                     <form id="" class="forms-sample" action="<?=base_url()?>admin/rdo/checkin_funcionario_motorista/" method="POST" enctype="multipart/form-data" style="max-width: 450px;">
@@ -131,6 +129,7 @@
                             $this->db->order_by('rdos.id', 'DESC');
                             $this->db->limit(1);
                             $data = $this->db->get()->result();
+                            
                             $checkin = $this->db->get_where('funcionarios_rdo', array('funcionario_id' => $id_usuario, 'rdo_id' => $data[0]->id))->result();
                             
                             $this->db->select('frotas.nome, frotas.placa');

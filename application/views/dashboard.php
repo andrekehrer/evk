@@ -39,6 +39,8 @@
         .data_real_hoje{background: #387da7;width: 110px;padding: 5px 9px;color: white;border-radius: 4px;}
         .data_real_ontem{background: #a73838;width: 110px;padding: 5px 9px;color:white;border-radius: 4px;}
         .card {border-radius: 0px !important;border: none;}
+        .red_gps{color: red;}
+        .blue_gps{color: #1a1ab3;}
     </style>
 </head>
 <body>
@@ -95,8 +97,9 @@
                                                         echo '  '.$func['carro'].' '.(isset($func['placa'])? '['.$func['placa'].']' : '');
                                                         
                                                         if($func['checkin']){
+                                                            $fora = $func['fora_do_raio'] == 1 ? 'red_gps' : 'blue_gps';
                                                             echo '<br>';
-                                                            echo date('d/m/Y h:i',$func['checkin']);
+                                                            echo "<i class='bi bi-geo-alt-fill ".$fora."'></i>".date('d/m/Y h:i',$func['checkin']);
                                                         }
                                                         if($func['checkout']){
                                                             echo '<br>';

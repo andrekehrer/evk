@@ -30,6 +30,7 @@ class Rdo extends CI_Controller {
         }else{
             $data['obras'] = $this->obras_model->get_obra_id_usuario($id);
             $data['veiculos'] = $this->frotas_model->get_veiculos($id);
+
             $this->load->view('admin/rdos', $data);
         }
         
@@ -80,12 +81,34 @@ class Rdo extends CI_Controller {
         redirect('admin/rdo/');  
     }
 
+    function distancia($lat1, $lon1, $lat2, $lon2) {
+
+        $lat1 = deg2rad($lat1);
+        $lat2 = deg2rad($lat2);
+        $lon1 = deg2rad($lon1);
+        $lon2 = deg2rad($lon2);
+        
+        $dist = (6371 * acos( cos( $lat1 ) * cos( $lat2 ) * cos( $lon2 - $lon1 ) + sin( $lat1 ) * sin($lat2) ) );
+        $dist = number_format($dist, 2, '.', '');
+        return $dist;
+    }
+
     public function checkin_funcionario_motorista(){
         date_default_timezone_set('America/Sao_Paulo');
         $today_dia  = date("d-m-Y");
         
         $id_usuario = $_SESSION['backend']['id'];
         $obra_id = $_POST['obra'];
+
+        $lat_longe = $this->rdos_model->get_lat_longe_obra_by_id($obra_id);
+
+        $distancia = $this->distancia($_POST['lat'], $_POST['longe'],$lat_longe[0]->lat,$lat_longe[0]->long);
+
+        if($distancia <= 1){
+            $fora_do_raio = 0;
+        }else{
+            $fora_do_raio = 1;
+        }
         
         if($obra_id != 0){
             
@@ -96,10 +119,10 @@ class Rdo extends CI_Controller {
                 
                 $rdo_id = $this->rdos_model->criar_rdo_para_checkin($obra_id, $id_usuario, $permissao);
     
-                $this->rdos_model->inserir_funcionario_no_rdo($rdo_id, $id_usuario, $_POST['lat'], $_POST['longe']);
+                $this->rdos_model->inserir_funcionario_no_rdo($rdo_id, $id_usuario, $_POST['lat'], $_POST['longe'], $fora_do_raio);
             }else{
                 $rdo_id = $rdo[0]->id;
-                $this->rdos_model->inserir_funcionario_no_rdo($rdo[0]->id, $id_usuario, $_POST['lat'], $_POST['longe']);
+                $this->rdos_model->inserir_funcionario_no_rdo($rdo[0]->id, $id_usuario, $_POST['lat'], $_POST['longe'], $fora_do_raio);
             }
     
             if($_POST['veiculo'] != 0){
