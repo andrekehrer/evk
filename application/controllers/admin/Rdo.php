@@ -93,7 +93,33 @@ class Rdo extends CI_Controller {
         return $dist;
     }
 
+    public function postCURL($_url, $_param){
+
+        $postData = '';
+        foreach($_param as $k => $v) 
+        { 
+          $postData .= $k . '='.$v.'&'; 
+        }
+        rtrim($postData, '&');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, false); 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);    
+
+        $output=curl_exec($ch);
+        curl_close($ch);
+
+        return $output;
+    }
+
     public function checkin_funcionario_motorista(){
+
+         // echo '<br><hr><h2>'.$this->postCURL($url, $params).'</h2><br><hr><br>';
+        // $url = base_url('dashboard/refresh');
+        // $this->postCURL(base_url('dashboard/refresh'), array("mudou" => 1));
+
         date_default_timezone_set('America/Sao_Paulo');
         $today_dia  = date("d-m-Y");
         
@@ -101,7 +127,6 @@ class Rdo extends CI_Controller {
         $obra_id = $_POST['obra'];
 
         $lat_longe = $this->rdos_model->get_lat_longe_obra_by_id($obra_id);
-
         $distancia = $this->distancia($_POST['lat'], $_POST['longe'],$lat_longe[0]->lat,$lat_longe[0]->long);
 
         if($distancia <= 1){
@@ -111,26 +136,23 @@ class Rdo extends CI_Controller {
         }
         
         if($obra_id != 0){
-            
             $rdo = $this->rdos_model->lista_rdos_by_obra_id_data($obra_id, $today_dia);
 
             if(!$rdo){
                 $permissao = $_SESSION['backend']['permissao'];
-                
                 $rdo_id = $this->rdos_model->criar_rdo_para_checkin($obra_id, $id_usuario, $permissao);
-    
                 $this->rdos_model->inserir_funcionario_no_rdo($rdo_id, $id_usuario, $_POST['lat'], $_POST['longe'], $fora_do_raio);
             }else{
                 $rdo_id = $rdo[0]->id;
                 $this->rdos_model->inserir_funcionario_no_rdo($rdo[0]->id, $id_usuario, $_POST['lat'], $_POST['longe'], $fora_do_raio);
             }
-    
             if($_POST['veiculo'] != 0){
                 $this->rdos_model->inserir_veiculo_no_rdo($rdo_id, $id_usuario, $_POST['veiculo']);
-            }}
-
+            }
+            $this->postCURL(base_url('dashboard/refresh'), array("mudou" => 1));
+        }
+        
         redirect('admin/rdo/');    
-
     }
 
     public function criar_rdo($obra_id){  

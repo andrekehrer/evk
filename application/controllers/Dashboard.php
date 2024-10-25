@@ -14,9 +14,28 @@ class Dashboard extends CI_Controller {
 		$this->load->model('admin/rdos_model');
 	}
 	
+	public function refresh(){
+		if($_POST){
+			$data = array('mudar'=> 1);
+			$this->db->where('id', 1);
+			$this->db->update('atualizar_dash',$data); 
+		}
+	}
+
+	public function set_0(){
+		$data = array('mudar'=> 0);
+		$this->db->where('id', 1);
+		$this->db->update('atualizar_dash',$data); 
+	}
+
+	public function get_mudar(){
+		$data = $this->db->get_where('atualizar_dash', array('id' => 1))->result();
+		echo json_encode($data[0]->mudar);
+	}
 
     public function index(){
-
+		
+		$this->set_0();
 		$data['title'] = 'Obras - Dashboard';
 		$today = strtotime('today UTC');
         $obras = $this->obras_model->lista_obras_ativas();
